@@ -1,18 +1,20 @@
 import "./users.css";
 import React, {useState,useEffect} from "react";
 import Input from "../input/input";
-import Table from "../table/table";
+import Table from "../table/Table";
+import UserForm from '../user-form/UserForm';
 
 const EMPTY_ARR = [];
 
 function Users({ users, handleAdd, handleEdit }) {
   console.log(users);
   //const { values } = useFormikContext();
-  //console.log(values);
   //const formikSlice = getIn(values, users)|| EMPTY_ARR;
   const formikSlice = users || EMPTY_ARR;
 
+  const [userFormActive, setUserFormActive] = useState(false);
   const [tableRows, setTableRows] = useState(formikSlice);
+  const [rowData, setRowData] = useState(null)
 
   useEffect(() => {
     //console.log(tableRows);
@@ -21,15 +23,9 @@ function Users({ users, handleAdd, handleEdit }) {
 
   const onAdd = () => {
     const newState = [...tableRows];
-    const item = {
-      id: Math.floor(Math.random() * 100) / 10,
-      firstName: "",
-      lastName: ""
-    };
-
-    newState.push(item);
-    setTableRows(newState);
-    handleAdd(item);
+    //newState.push(item);
+    //setTableRows(newState); //позже раскоментировать
+    //handleAdd(item);
   }
 
 
@@ -82,22 +78,36 @@ function Users({ users, handleAdd, handleEdit }) {
         Header: "Actions",
         id: "actions",
         Cell: ({ row } ) => (
-          <button type="button" onClick={() => onEdit(row)}>
+          <div>
+          <button type="button" onClick={() => onClickEditUser(row)}>
             edit
           </button>
+          </div>     
         )
       }
     ]
   
+    const onClickAddUser = () => {
+       //onAdd();
+       setUserFormActive(true);
+    }
+
+    const onClickEditUser = (row) => {
+      console.log(userFormActive, row,  'click edit user')
+      // onEdit(row);
+      setRowData(row); //если пришла строка то меняем стейт
+      setUserFormActive(true);
+    }
 
   return (
     <div className="field">
          <div>
-        <button type="button" onClick={onAdd}>
+        <button type="button" onClick={onClickAddUser}>
           Add user
         </button>
       </div>
       <Table data={tableRows} columns={columns} rowKey="id" />
+      <UserForm active={userFormActive} setActive={setUserFormActive}  row={rowData}></UserForm>
 
     </div>
   );
