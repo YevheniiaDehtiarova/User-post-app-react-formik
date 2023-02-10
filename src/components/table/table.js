@@ -31,7 +31,7 @@ function Table({ columns, data, rowKey }) {
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map(row => {
+        {rows.map((row,index) => {
           //console.log(row, 'ROW FROM TABLE');
           prepareRow(row);
           return (

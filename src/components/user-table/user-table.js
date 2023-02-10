@@ -1,9 +1,7 @@
 import "./user-table.css";
 import { Formik, Form, FieldArray } from "formik";
 import { useState, useEffect } from "react";
-import Users from "../users/users";
-import Input from "../input/input"
-
+import Users from "../users/Users"
 
 const UserTable = () => {
 
@@ -27,8 +25,8 @@ const UserTable = () => {
            <Form> 
                <FieldArray name="users" key={1}>
                   <Users users={formData} 
-                  handleAdd={formData.push}
-                  handleEdit={formData.splice(1, 1)}
+                  handleAdd={formData}
+                  handleEdit={formData}
                   />
                   
                </FieldArray>

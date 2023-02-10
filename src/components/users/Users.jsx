@@ -1,12 +1,12 @@
 import "./users.css";
-import React, {useState,useEffect,useCallback, useMemo} from "react";
+import React, {useState,useEffect} from "react";
 import Input from "../input/input";
 import Table from "../table/table";
 
 const EMPTY_ARR = [];
 
 function Users({ users, handleAdd, handleEdit }) {
-  //console.log(users);
+  console.log(users);
   //const { values } = useFormikContext();
   //console.log(values);
   //const formikSlice = getIn(values, users)|| EMPTY_ARR;
@@ -19,7 +19,7 @@ function Users({ users, handleAdd, handleEdit }) {
     setTableRows(formikSlice);
   }, [formikSlice, tableRows]);
 
-  const onAdd = useCallback(() => {
+  const onAdd = () => {
     const newState = [...tableRows];
     const item = {
       id: Math.floor(Math.random() * 100) / 10,
@@ -30,21 +30,22 @@ function Users({ users, handleAdd, handleEdit }) {
     newState.push(item);
     setTableRows(newState);
     handleAdd(item);
-  }, [handleAdd, tableRows]);
+  }
 
 
-  const onEdit = useCallback(
-    (index)=> {
+  const onEdit = (row)=> {
+    console.log(row, 'ROW FROM ONEDIT');
         const newState = [...tableRows];
-        const findedTableElement = newState.find((user) => user.id === index);
-        newState.splice(index, 1, findedTableElement);
+        console.log(newState)
+        const findedTableElement = newState.find((user) => user.id === row.id);
+        console.log(findedTableElement)
+        newState.splice(row.index, 1, findedTableElement);
         setTableRows(newState);
-        handleEdit(findedTableElement);
-    }, [handleEdit, tableRows]
-  )
+    }
+  
 
-  const columns = useMemo(
-    () => [
+  const columns =
+    [
       {
         Header: "Name",
         accessor: "name",
@@ -80,15 +81,14 @@ function Users({ users, handleAdd, handleEdit }) {
       {
         Header: "Actions",
         id: "actions",
-        Cell: ({ row: { index } }) => (
-          <button type="button" onClick={() => onEdit(index)}>
+        Cell: ({ row } ) => (
+          <button type="button" onClick={() => onEdit(row)}>
             edit
           </button>
         )
       }
-    ],
-    [users, onEdit]
-  );
+    ]
+  
 
   return (
     <div className="field">
