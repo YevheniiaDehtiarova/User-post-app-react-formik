@@ -1,4 +1,4 @@
-import "./user-table.css";
+import "./UserTable.css";
 import { Formik, Form, FieldArray } from "formik";
 import { useState, useEffect } from "react";
 import Users from "../users/Users"

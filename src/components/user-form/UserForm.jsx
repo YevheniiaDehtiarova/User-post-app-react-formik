@@ -1,11 +1,9 @@
-import "./user-form.css";
+import "./UserForm.css";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Formik, Field, Form } from "formik";
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch } from "react-redux";
 import { useHttp } from "../hooks/http.hook";
-import { userCreated } from "../users/userSlice";
 
 const UserForm = ({ active, setActive, row }) => {
   console.log(active, "STATUS");
@@ -17,7 +15,7 @@ const UserForm = ({ active, setActive, row }) => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [street, setStreet] = useState("");
-  const [building, setbuilding] = useState("");
+  const [building, setBuilding] = useState("");
   const [city, setCity] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [phone, setPhone] = useState("");
@@ -25,16 +23,29 @@ const UserForm = ({ active, setActive, row }) => {
   const [companyName, setCompanyName] = useState("");
   const [companyScope, setCompanyScope] = useState("");
 
-  const dispatch = useDispatch();
   const { request } = useHttp();
 
   useEffect(() => {
-    console.log("!!!!!!!!!!!!!!!!!!", row?.original?.firstName);
-    setFirstName(row?.original?.firstName);// засетили имя 
+   //console.log("!!!!!!!!!!!!!!!!!!", row?.original);
+    setFirstName(row?.original?.firstName);
+    setLastName(row?.original.lastName);
+    setUserName(row?.original.userName);
+    setEmail(row?.original.email);
+    setStreet(row?.original.street);
+    setBuilding(row?.original.building);
+    setCity(row?.original.city);
+    setZipcode(row?.original.zipcode);
+    setPhone(row?.original.phone);
+    setWebsite(row?.original.website);
+    setCompanyName(row?.original.companyName);
+    setCompanyScope(row?.original.companyScope);
+
   }, [row]);
 
   const onSubmitHandler = (e) => {
+    console.log('SUBMIT WORKS');
     e.preventDefault();
+    this.setState({ isSubmitting: true }); 
     const newUser = {
       id: uuidv4(),
       firstName: firstName,
@@ -55,7 +66,6 @@ const UserForm = ({ active, setActive, row }) => {
 
     request("http://localhost:3000/users", "POST", JSON.stringify(newUser))
       .then((res) => res)
-      .then(dispatch(userCreated(newUser)))
       .catch((err) => console.log(err));
 
     // Очищаем форму после отправки
@@ -64,7 +74,7 @@ const UserForm = ({ active, setActive, row }) => {
     setUserName("");
     setEmail("");
     setStreet("");
-    setbuilding("");
+    setBuilding("");
     setCity("");
     setZipcode("");
     setPhone("");
@@ -72,33 +82,32 @@ const UserForm = ({ active, setActive, row }) => {
     setCompanyName("");
     setCompanyScope("");
   };
-/*почитать как менять инишл велью в формике*/
+
+
   return (
     active && (
       <div>
         <h1>Add/Edit User</h1>
         {/* {row && ( */}
-        <input value={firstName} onChange={() => {}} />
-        <Formik
+        <Formik enableReinitialize
           initialValues={{
-            id: row?.id ?? "",
-            firstName: row?.firstName ?? "",
-            lastName: row?.lastName ?? "",
-            userName: row?.userName ?? "",
-            email: row?.email ?? "",
-            street: row?.street ?? "",
-            building: row?.building ?? "",
-            city: row?.city ?? "",
-            zipcode: row?.zipcode ?? "",
-            phone: row?.phone ?? "",
-            website: row?.website ?? "",
-            companyName: row?.companyName ?? "",
-            companyScope: row?.companyScope ?? "",
+            firstName: firstName ?? "",
+            lastName: lastName ?? "",
+            userName: userName ?? "",
+            email: email ?? "",
+            street: street ?? "",
+            building: building ?? "",
+            city: city ?? "",
+            zipcode: zipcode ?? "",
+            phone: phone ?? "",
+            website: website ?? "",
+            companyName: companyName ?? "",
+            companyScope: companyScope ?? "",
           }}
-          onSubmit={async (values) => {
-            await new Promise((r) => setTimeout(r, 500));
-            alert(JSON.stringify(values, null, 2));
-          }}
+          onSubmit={({ setSubmitting }) => { 
+            alert("Form is validated!"); 
+            setSubmitting(false); 
+          }} 
         >
           <Form onSubmit={onSubmitHandler}>
             <label htmlFor="firstName">Enter Firstname</label>

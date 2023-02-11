@@ -1,4 +1,4 @@
-import "./user-detail.css";
+import "./UserDetail.css";
 
 const UserDetail = () => {
   
