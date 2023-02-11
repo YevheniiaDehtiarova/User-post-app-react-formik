@@ -10,6 +10,8 @@ const UserForm = ({ active, setActive, row }) => {
   console.log(row, "СТРОКА");
   const handleClose = () => setActive(false);
 
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userName, setUserName] = useState("");
@@ -26,7 +28,7 @@ const UserForm = ({ active, setActive, row }) => {
   const { request } = useHttp();
 
   useEffect(() => {
-   //console.log("!!!!!!!!!!!!!!!!!!", row?.original);
+   console.log("!!!!!!!!!!!!!!!!!!", row?.original);
     setFirstName(row?.original?.firstName);
     setLastName(row?.original.lastName);
     setUserName(row?.original.userName);
@@ -45,7 +47,6 @@ const UserForm = ({ active, setActive, row }) => {
   const onSubmitHandler = (e) => {
     console.log('SUBMIT WORKS');
     e.preventDefault();
-    this.setState({ isSubmitting: true }); 
     const newUser = {
       id: uuidv4(),
       firstName: firstName,
@@ -104,12 +105,13 @@ const UserForm = ({ active, setActive, row }) => {
             companyName: companyName ?? "",
             companyScope: companyScope ?? "",
           }}
-          onSubmit={({ setSubmitting }) => { 
-            alert("Form is validated!"); 
-            setSubmitting(false); 
-          }} 
+          onSubmit={async (values) => {
+            await sleep(500);
+            alert(JSON.stringify(values, null, 2));
+          }}
         >
-          <Form onSubmit={onSubmitHandler}>
+          {({ isSubmitting }) =>(
+          <Form>
             <label htmlFor="firstName">Enter Firstname</label>
             <Field id="firstName" name="firstName" />
 
@@ -153,8 +155,9 @@ const UserForm = ({ active, setActive, row }) => {
 
             <button onClick={handleClose}>x</button>
 
-            <button type="submit">Submit</button>
+            <button type="submit" disabled={isSubmitting}>Submit</button>
           </Form>
+    )}
         </Formik>
         {/* )} */}
       </div>
