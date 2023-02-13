@@ -1,10 +1,8 @@
 import "./UserForm.css";
-import React, { useEffect, createRef } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Formik, Field, Form } from "formik";
-import { v4 as uuidv4 } from "uuid";
 import { useHttp } from "../hooks/http.hook";
-import { useFormik } from "formik";
 import * as Yup from 'yup';
 
 const UserForm = ({ active, setActive, row }) => {
@@ -12,7 +10,6 @@ const UserForm = ({ active, setActive, row }) => {
   console.log(row, "СТРОКА");
   const handleClose = () => setActive(false);
 
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -30,7 +27,7 @@ const UserForm = ({ active, setActive, row }) => {
   const { request } = useHttp();
 
   useEffect(() => {
-   console.log("!!!!!!!!!!!!!!!!!!", row?.original);
+   //console.log("!!!!!!!!!!!!!!!!!!", row?.original);
     setFirstName(row?.original?.firstName);
     setLastName(row?.original.lastName);
     setUserName(row?.original.userName);
@@ -49,33 +46,46 @@ const UserForm = ({ active, setActive, row }) => {
   const onSubmitHandler = (e, values) => {
     console.log('SUBMIT WORKS');
     e.preventDefault();
-    console.log(e, 'EVENT')
-    console.log(row?.original);
 
-    console.log(values, 'VALUES');
-    /*const newUser = {
-      id: uuidv4(),
-      firstName: firstName,
-      lastName: lastName,
-      userName: userName,
-      email: email,
+   const newUser =  {
+    id: row ? row.id : '',
+    firstName: firstName,
+    lastName: lastName,
+    userName: userName,
+    email: email,
+    address: {
       street: street,
       building: building,
       city: city,
       zipcode: zipcode,
-      phone: phone,
-      website: website,
-      companyName: companyName,
-      companyScope: companyScope,
-    };*/
+    },
+    phone: phone,
+    website: website,
+    company: {
+      name: companyName,
+      scope: companyScope,
+    },
+  };
 
-    /*console.log(newUser, 'NEW USER');*/
+  console.log(newUser);
 
-    /*request("http://localhost:3000/users", "POST", JSON.stringify(newUser))
+   if(!row) {
+    console.log('будем создавать юзера');
+  
+    request("http://localhost:3000/users", "POST", JSON.stringify(newUser))
       .then((res) => res)
-      .catch((err) => console.log(err));*/
+      .catch((err) => console.log(err));
 
-    // Очищаем форму после отправки
+   } else {
+    console.log('будем обновлять юзера');
+    let oldReq = "http://localhost:3000/users/${id}";
+    const apiUrl = oldReq.replace('${id}', newUser.id);
+
+    request(apiUrl, "PUT", JSON.stringify(newUser))
+    .then((res) => res)
+    .catch((err) => console.log(err));
+   }
+
     setFirstName("");
     setLastName("");
     setUserName("");
@@ -96,14 +106,48 @@ const UserForm = ({ active, setActive, row }) => {
       .required('Required'),
   })
 
-  
+  const handleFirstNameOnChange = (event) => {
+    setFirstName(event.target.value);
+  }
+  const handleLastNameOnChange = (event) => {
+    setLastName(event.target.value);
+  };
+  const handleUserNameOnChange = (event) => {
+    setUserName(event.target.value);
+  };
+  const handleEmailOnChange = (event) => {
+    setEmail(event.target.value);
+  };
+  const handleStreetOnChange = (event) => {
+    setStreet(event.target.value);
+  };
+  const handleBuildingOnChange = (event) => {
+    setBuilding(event.target.value);
+  };
+  const handleCityOnChange = (event) => {
+    setCity(event.target.value);
+  }
+  const handleZipcodeOnChange = (event) => {
+    setZipcode(event.target.value);
+  }
+  const handlePhoneOnChange = (event) => {
+    setPhone(event.target.value);
+  }
+  const handleSiteOnChange = (event) => {
+    setWebsite(event.target.value);
+  }
+  const handleCompanyNameOnChange = (event) => {
+    setCompanyName(event.target.value);
+  }
 
+  const handleCompanyScopeOnChange = (event) => {
+    setCompanyScope(event.target.value);
+  }
 
   return (
     active && (
       <div>
         <h1>Add/Edit User</h1>
-        {/* {row && ( */}
         <Formik enableReinitialize
           initialValues={{
             firstName: firstName ?? "",
@@ -119,50 +163,50 @@ const UserForm = ({ active, setActive, row }) => {
             companyName: companyName ?? "",
             companyScope: companyScope ?? "",
           }}
-          onSubmit={() => { console.log("submit!"); }}
           validationSchema={validationSchema}
         >
           <Form>
             <label htmlFor="firstName">Enter Firstname</label>
-            <Field id="firstName" name="firstName" value={firstName ?? ""} />
+            <Field id="firstName" name="firstName" onChange={handleFirstNameOnChange}/>
 
             <label htmlFor="lastName">Enter Lastname</label>
-            <Field id="lastName" name="lastName" />
+            <Field id="lastName" name="lastName" onChange={handleLastNameOnChange}/>
 
             <label htmlFor="userName">Enter Username</label>
-            <Field id="userName" name="lastName" />
+            <Field id="userName" name="userName" onChange={handleUserNameOnChange} />
 
             <label htmlFor="email">Enter Email</label>
             <Field
               id="email"
               name="email"
-              placeholder="jane@acme.com"
               type="email"
+              onChange={handleEmailOnChange}
             />
 
             <label htmlFor="streetName">Enter street</label>
-            <Field id="streetName" name="streetName" />
+            <Field id="streetName" name="streetName" onChange={handleStreetOnChange}
+             />
 
             <label htmlFor="building">Enter building</label>
-            <Field id="building" name="building" />
+            <Field id="building" name="building" onChange={handleBuildingOnChange} />
 
             <label htmlFor="city">Enter city</label>
-            <Field id="city" name="city" />
+            <Field id="city" name="city" onChange={handleCityOnChange} />
 
             <label htmlFor="zipcode">Enter zipcode</label>
-            <Field id="zipcode" name="zipcode" />
+            <Field id="zipcode" name="zipcode" onChange={handleZipcodeOnChange}/>
 
             <label htmlFor="phone">Enter phone</label>
-            <Field id="phone" name="phone" />
+            <Field id="phone" name="phone" onChange={handlePhoneOnChange}/>
 
             <label htmlFor="website">Enter website</label>
-            <Field id="website" name="website" />
+            <Field id="website" name="website" onChange={handleSiteOnChange}/>
 
             <label htmlFor="companyName">Enter companyName</label>
-            <Field id="companyName" name="companyName" />
+            <Field id="companyName" name="companyName" onChange={handleCompanyNameOnChange}/>
 
             <label htmlFor="companyScope">Enter companyScope</label>
-            <Field id="companyScope" name="companyScope" />
+            <Field id="companyScope" name="companyScope" onChange={handleCompanyScopeOnChange}/>
 
             <button onClick={handleClose}>x</button>
 
