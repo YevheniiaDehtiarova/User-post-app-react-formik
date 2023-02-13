@@ -1,9 +1,11 @@
 import "./UserForm.css";
-import React, { useEffect } from "react";
+import React, { useEffect, createRef } from "react";
 import { useState } from "react";
 import { Formik, Field, Form } from "formik";
 import { v4 as uuidv4 } from "uuid";
 import { useHttp } from "../hooks/http.hook";
+import { useFormik } from "formik";
+import * as Yup from 'yup';
 
 const UserForm = ({ active, setActive, row }) => {
   console.log(active, "STATUS");
@@ -33,21 +35,25 @@ const UserForm = ({ active, setActive, row }) => {
     setLastName(row?.original.lastName);
     setUserName(row?.original.userName);
     setEmail(row?.original.email);
-    setStreet(row?.original.street);
-    setBuilding(row?.original.building);
-    setCity(row?.original.city);
-    setZipcode(row?.original.zipcode);
+    setStreet(row?.original.address.street);
+    setBuilding(row?.original.address.building);
+    setCity(row?.original.address.city);
+    setZipcode(row?.original.address.zipcode);
     setPhone(row?.original.phone);
     setWebsite(row?.original.website);
-    setCompanyName(row?.original.companyName);
-    setCompanyScope(row?.original.companyScope);
+    setCompanyName(row?.original.company.name);
+    setCompanyScope(row?.original.company.scope);
 
   }, [row]);
 
-  const onSubmitHandler = (e) => {
+  const onSubmitHandler = (e, values) => {
     console.log('SUBMIT WORKS');
     e.preventDefault();
-    const newUser = {
+    console.log(e, 'EVENT')
+    console.log(row?.original);
+
+    console.log(values, 'VALUES');
+    /*const newUser = {
       id: uuidv4(),
       firstName: firstName,
       lastName: lastName,
@@ -61,13 +67,13 @@ const UserForm = ({ active, setActive, row }) => {
       website: website,
       companyName: companyName,
       companyScope: companyScope,
-    };
+    };*/
 
-    console.log(newUser);
+    /*console.log(newUser, 'NEW USER');*/
 
-    request("http://localhost:3000/users", "POST", JSON.stringify(newUser))
+    /*request("http://localhost:3000/users", "POST", JSON.stringify(newUser))
       .then((res) => res)
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err));*/
 
     // Очищаем форму после отправки
     setFirstName("");
@@ -83,6 +89,14 @@ const UserForm = ({ active, setActive, row }) => {
     setCompanyName("");
     setCompanyScope("");
   };
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email('Invalid email')
+      .required('Required'),
+  })
+
+  
 
 
   return (
@@ -105,15 +119,12 @@ const UserForm = ({ active, setActive, row }) => {
             companyName: companyName ?? "",
             companyScope: companyScope ?? "",
           }}
-          onSubmit={async (values) => {
-            await sleep(500);
-            alert(JSON.stringify(values, null, 2));
-          }}
+          onSubmit={() => { console.log("submit!"); }}
+          validationSchema={validationSchema}
         >
-          {({ isSubmitting }) =>(
           <Form>
             <label htmlFor="firstName">Enter Firstname</label>
-            <Field id="firstName" name="firstName" />
+            <Field id="firstName" name="firstName" value={firstName ?? ""} />
 
             <label htmlFor="lastName">Enter Lastname</label>
             <Field id="lastName" name="lastName" />
@@ -155,11 +166,9 @@ const UserForm = ({ active, setActive, row }) => {
 
             <button onClick={handleClose}>x</button>
 
-            <button type="submit" disabled={isSubmitting}>Submit</button>
+            <button type="submit" onClick={onSubmitHandler}>Submit</button>
           </Form>
-    )}
         </Formik>
-        {/* )} */}
       </div>
     )
   );
