@@ -1,7 +1,8 @@
 import "./UserTable.css";
 import { Formik, Form, FieldArray } from "formik";
 import { useState, useEffect } from "react";
-import Users from "../users/Users"
+import Users from "../users/Users";
+import userRoutes from "../app/routes/user.routes"
 
 const UserTable = () => {
 
@@ -9,11 +10,10 @@ const UserTable = () => {
 
   useEffect(() => {
     fetch(
-      'http://localhost:3000/users',
+      userRoutes.getUsers,
     )
     .then((response) => response.json())
     .then((data) => {
-      //console.log(data);
         setFormData(data);
     });
   

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Formik, Field, Form } from "formik";
 import { useHttp } from "../hooks/http.hook";
 import * as Yup from 'yup';
+import userRoutes from "../app/routes/user.routes";
 
 const UserForm = ({ active, setActive, row }) => {
   console.log(active, "STATUS");
@@ -72,14 +73,13 @@ const UserForm = ({ active, setActive, row }) => {
    if(!row) {
     console.log('будем создавать юзера');
   
-    request("http://localhost:3000/users", "POST", JSON.stringify(newUser))
+    request(userRoutes.createUser, "POST", JSON.stringify(newUser))
       .then((res) => res)
       .catch((err) => console.log(err));
 
    } else {
     console.log('будем обновлять юзера');
-    let oldReq = "http://localhost:3000/users/${id}";
-    const apiUrl = oldReq.replace('${id}', newUser.id);
+    const apiUrl = userRoutes.updateUser.replace('${id}', newUser.id);
 
     request(apiUrl, "PUT", JSON.stringify(newUser))
     .then((res) => res)
@@ -139,7 +139,6 @@ const UserForm = ({ active, setActive, row }) => {
   const handleCompanyNameOnChange = (event) => {
     setCompanyName(event.target.value);
   }
-
   const handleCompanyScopeOnChange = (event) => {
     setCompanyScope(event.target.value);
   }
