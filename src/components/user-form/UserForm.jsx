@@ -101,9 +101,15 @@ const UserForm = ({ active, setActive, row }) => {
   };
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email('Invalid email')
-      .required('Required'),
+    firstName: Yup.string()
+    .min(4, 'enter the name')
+    .max(50, 'the name is too long')
+    .required('Required'),
+   lastName: Yup.string()
+    .min(5, 'enter valid lastname')
+    .max(50, 'last name too long')
+    .required('Required'),
+  email: Yup.string().email('Invalid email').required('Required'),
   })
 
   const handleFirstNameOnChange = (event) => {
