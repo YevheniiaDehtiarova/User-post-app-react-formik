@@ -71,7 +71,7 @@ function Users({ users }) {
   };
 
   const onClickEditUser = (row) => {
-    setRowData(row);
+    setRowData(row.original);
     setUserFormActive(true);
   };
 

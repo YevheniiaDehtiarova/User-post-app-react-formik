@@ -1,6 +1,8 @@
 import "./table.css";
 import React from "react";
 import { useTable } from "react-table";
+import { useState } from "react";
+import UserDetail from "../user-detail/UserDetail"
 
 function Table({ columns, data, rowKey, updateData }) {
   //console.log(columns,data,rowKey);
@@ -8,18 +10,25 @@ function Table({ columns, data, rowKey, updateData }) {
   if(updateData) {
     data = updateData
   }
-
+  const [ tableRow, setTableRow] = useState("");
+  const [userDetailActive, setUserDetailActive]= useState(false);
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
-    prepareRow
+    prepareRow /// Prepare the row (this function needs to be called for each row before getting the row props)
   } = useTable({
     columns,
     data,
     getRowId: React.useCallback(row => row[rowKey], [rowKey])
   });
+
+  const openTableRow = (row) => {
+    console.log(row, 'ROW IN OPEN TABLE ROW');
+    setTableRow(row.original);
+    setUserDetailActive(true);
+  }
 
   return (
     <table {...getTableProps()} style={{ width: "100%" }}>
@@ -36,17 +45,19 @@ function Table({ columns, data, rowKey, updateData }) {
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map((row,index) => {
+        {rows.map((row) => {
           //console.log(row, 'ROW FROM TABLE');
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()}>
+            <tr {...row.getRowProps()}
+            onClick={() => openTableRow(row)}>
               {row.cells.map(cell => (
                 <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
               ))}
             </tr>
           );
         })}
+            <UserDetail tableRow={tableRow} active={userDetailActive} setActive={setUserDetailActive}/>
       </tbody>
     </table>
   );

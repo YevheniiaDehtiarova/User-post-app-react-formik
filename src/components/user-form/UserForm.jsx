@@ -8,7 +8,7 @@ import userRoutes from "../app/routes/user.routes";
 
 const UserForm = ({ active, setActive, row, callBack }) => {
   //console.log(active, "STATUS");
-  //console.log(row, "СТРОКА");
+  console.log(row, "СТРОКА");
   const handleClose = () => setActive(false);
 
   //console.log(callBack, 'CALLBACK')
@@ -29,19 +29,19 @@ const UserForm = ({ active, setActive, row, callBack }) => {
   const { request } = useHttp();
 
   useEffect(() => {
-   //console.log("!!!!!!!!!!!!!!!!!!", row?.original);
-    setFirstName(row?.original?.firstName);
-    setLastName(row?.original?.lastName);
-    setUserName(row?.original?.userName);
-    setEmail(row?.original?.email);
-    setStreet(row?.original?.address.street);
-    setBuilding(row?.original?.address.building);
-    setCity(row?.original?.address.city);
-    setZipcode(row?.original?.address.zipcode);
-    setPhone(row?.original?.phone);
-    setWebsite(row?.original?.website);
-    setCompanyName(row?.original?.company.name);
-    setCompanyScope(row?.original?.company.scope);
+   console.log('use effect works');
+    setFirstName(row?.firstName);
+    setLastName(row?.lastName);
+    setUserName(row?.userName);
+    setEmail(row?.email);
+    setStreet(row?.address.street);
+    setBuilding(row?.address.building);
+    setCity(row?.address.city);
+    setZipcode(row?.address.zipcode);
+    setPhone(row?.phone);
+    setWebsite(row?.website);
+    setCompanyName(row?.company.name);
+    setCompanyScope(row?.company.scope);
 
   }, [row]);
 
