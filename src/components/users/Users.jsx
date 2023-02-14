@@ -23,6 +23,8 @@ function Users({ users }) {
     setTableRows(formikSlice);
   }, [formikSlice, tableRows]);
 
+ 
+
   const columns = [
     {
       Header: "Name",
@@ -77,7 +79,7 @@ function Users({ users }) {
     setUserFormActive(true);
   };
   const onClickOpenUser  = (row) => {
-    console.log(row, 'ROW IN OPEN TABLE ROW');
+    //console.log(row, 'ROW IN OPEN TABLE ROW');
     setTableRow(row.original);
     setUserDetailActive(true);
   }

@@ -1,4 +1,4 @@
-export const postRoutes = {
+const postRoutes = {
     getAll: 'http://localhost:3000/api/posts',
     create: 'http://localhost:3000/api/posts',
     getById: 'http://localhost:3000/api/posts/${id}',
@@ -6,3 +6,5 @@ export const postRoutes = {
     delete: 'http://localhost:3000/api/posts/${id}',
     getComments: 'http://localhost:3000/api/comments'
   };
+
+  export default postRoutes;

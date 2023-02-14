@@ -1,6 +1,8 @@
 import "./UserDetail.css";
 import { useEffect, useState } from "react";
 import UserForm from "../user-form/UserForm";
+import postRoutes from "../app/routes/post.routes";
+import Post from "../post/Post"
 
 const UserDetail = ({tableRow, active, setActive}) => {
   console.log(active, tableRow, 'USER DETAIL');
@@ -19,6 +21,8 @@ const UserDetail = ({tableRow, active, setActive}) => {
   const [companyName, setCompanyName] = useState("");
   const [companyScope, setCompanyScope] = useState("");
 
+  const [postData, setPostData] = useState([]);
+
   useEffect(() => {
      console.log('useEffect works in userDetail')
      setFirstName(tableRow?.firstName);
@@ -33,8 +37,24 @@ const UserDetail = ({tableRow, active, setActive}) => {
      setWebsite(tableRow?.website);
      setCompanyName(tableRow?.company?.name);
      setCompanyScope(tableRow?.company?.scope);
- 
    }, [tableRow]);
+
+   useEffect(() => {
+    if(tableRow){
+    //const apiUrl = postRoutes.getById.replace('${id}', tableRow.id);
+    fetch(
+      postRoutes.getAll,
+    )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data, 'POSTS FROM FETCH')
+      setPostData(data);
+    });
+  }
+    
+   },[tableRow])
+
+
 
    const goBack =() => {
      setActive(false);
@@ -110,6 +130,7 @@ const UserDetail = ({tableRow, active, setActive}) => {
                 </span>
               </div>
             </div>
+            <Post posts={postData}></Post>
             <UserForm  active={userFormActive} setActive={setUserFormActive} row={tableRow}></UserForm>
           </div>
         )
