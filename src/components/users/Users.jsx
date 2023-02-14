@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Input from "../input/input";
 import Table from "../table/Table";
 import UserForm from "../user-form/UserForm";
+import UserDetail from "../user-detail/UserDetail";
 
 const EMPTY_ARR = [];
 
@@ -13,6 +14,9 @@ function Users({ users }) {
   const [tableRows, setTableRows] = useState(formikSlice);
   const [rowData, setRowData] = useState(null);
   const [updateTableRows, setUpdateTableRows] = useState(null);
+
+  const [tableRow, setTableRow] = useState("");
+  const [userDetailActive, setUserDetailActive]= useState(false);
 
   useEffect(() => {
     //console.log('works useeffect in table');
@@ -60,6 +64,9 @@ function Users({ users }) {
           <button type="button" onClick={() => onClickEditUser(row)}>
             edit
           </button>
+          <button type="button" onClick={() => onClickOpenUser(row)}>
+            open
+          </button>
         </div>
       ),
     },
@@ -69,6 +76,11 @@ function Users({ users }) {
   const onClickAddUser = () => {
     setUserFormActive(true);
   };
+  const onClickOpenUser  = (row) => {
+    console.log(row, 'ROW IN OPEN TABLE ROW');
+    setTableRow(row.original);
+    setUserDetailActive(true);
+  }
 
   const onClickEditUser = (row) => {
     setRowData(row.original);
@@ -98,6 +110,7 @@ function Users({ users }) {
       </div>
       <Table data={tableRows} updateData={updateTableRows} columns={columns} rowKey="id" />
       <UserForm callBack={callBack}  active={userFormActive} setActive={setUserFormActive} row={rowData}></UserForm>
+      <UserDetail tableRow={tableRow} active={userDetailActive} setActive={setUserDetailActive}/>
     </div>
   );
 }

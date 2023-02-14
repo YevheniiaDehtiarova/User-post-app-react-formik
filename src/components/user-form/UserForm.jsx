@@ -8,9 +8,7 @@ import userRoutes from "../app/routes/user.routes";
 
 const UserForm = ({ active, setActive, row, callBack }) => {
   //console.log(active, "STATUS");
-  console.log(row, "СТРОКА");
-  const handleClose = () => setActive(false);
-
+  // console.log(active, row, "СТРОКА user form");
   //console.log(callBack, 'CALLBACK')
 
   const [firstName, setFirstName] = useState("");
@@ -26,10 +24,12 @@ const UserForm = ({ active, setActive, row, callBack }) => {
   const [companyName, setCompanyName] = useState("");
   const [companyScope, setCompanyScope] = useState("");
 
+
+
   const { request } = useHttp();
 
   useEffect(() => {
-   console.log('use effect works');
+   console.log('use effect works in userform');
     setFirstName(row?.firstName);
     setLastName(row?.lastName);
     setUserName(row?.userName);
@@ -70,10 +70,7 @@ const UserForm = ({ active, setActive, row, callBack }) => {
   };
 
   //console.log(newUser);
-
   callBack(newUser);
-
- 
 
    if(!row) {
     //console.log('будем создавать юзера');
@@ -103,6 +100,8 @@ const UserForm = ({ active, setActive, row, callBack }) => {
     setCompanyName("");
     setCompanyScope("");
   };
+
+  const handleClose = () => setActive(false);
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()

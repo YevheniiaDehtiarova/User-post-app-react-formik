@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import UserForm from "../user-form/UserForm";
 
 const UserDetail = ({tableRow, active, setActive}) => {
-  console.log(tableRow, 'USER DETAIL');
+  console.log(active, tableRow, 'USER DETAIL');
   const [userFormActive, setUserFormActive]= useState(false);
 
   const [firstName, setFirstName] = useState("");
@@ -37,7 +37,7 @@ const UserDetail = ({tableRow, active, setActive}) => {
    }, [tableRow]);
 
    const goBack =() => {
-
+     setActive(false);
    }
 
    const openUserModal = () => {

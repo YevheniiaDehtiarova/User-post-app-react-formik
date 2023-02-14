@@ -10,8 +10,6 @@ function Table({ columns, data, rowKey, updateData }) {
   if(updateData) {
     data = updateData
   }
-  const [ tableRow, setTableRow] = useState("");
-  const [userDetailActive, setUserDetailActive]= useState(false);
   const {
     getTableProps,
     getTableBodyProps,
@@ -24,11 +22,6 @@ function Table({ columns, data, rowKey, updateData }) {
     getRowId: React.useCallback(row => row[rowKey], [rowKey])
   });
 
-  const openTableRow = (row) => {
-    console.log(row, 'ROW IN OPEN TABLE ROW');
-    setTableRow(row.original);
-    setUserDetailActive(true);
-  }
 
   return (
     <table {...getTableProps()} style={{ width: "100%" }}>
@@ -46,18 +39,15 @@ function Table({ columns, data, rowKey, updateData }) {
       </thead>
       <tbody {...getTableBodyProps()}>
         {rows.map((row) => {
-          //console.log(row, 'ROW FROM TABLE');
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()}
-            onClick={() => openTableRow(row)}>
+            <tr {...row.getRowProps()}>
               {row.cells.map(cell => (
                 <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
               ))}
             </tr>
           );
         })}
-            <UserDetail tableRow={tableRow} active={userDetailActive} setActive={setUserDetailActive}/>
       </tbody>
     </table>
   );
