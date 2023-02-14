@@ -15,7 +15,7 @@ function Users({ users }) {
   const [updateTableRows, setUpdateTableRows] = useState(null);
 
   useEffect(() => {
-    //console.log('works useeffect in table')
+    //console.log('works useeffect in table');
     setTableRows(formikSlice);
   }, [formikSlice, tableRows]);
 
