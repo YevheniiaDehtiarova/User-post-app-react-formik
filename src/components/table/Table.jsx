@@ -2,8 +2,13 @@ import "./table.css";
 import React from "react";
 import { useTable } from "react-table";
 
-function Table({ columns, data, rowKey }) {
+function Table({ columns, data, rowKey, updateData }) {
   //console.log(columns,data,rowKey);
+  //console.log(updateData, 'UPDATE DATA')
+  if(updateData) {
+    data = updateData
+  }
+
   const {
     getTableProps,
     getTableBodyProps,

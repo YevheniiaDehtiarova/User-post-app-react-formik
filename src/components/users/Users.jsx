@@ -6,31 +6,18 @@ import UserForm from "../user-form/UserForm";
 
 const EMPTY_ARR = [];
 
-function Users({ users, handleAdd, handleEdit }) {
+function Users({ users }) {
   const formikSlice = users || EMPTY_ARR;
 
   const [userFormActive, setUserFormActive] = useState(false);
   const [tableRows, setTableRows] = useState(formikSlice);
   const [rowData, setRowData] = useState(null);
+  const [updateTableRows, setUpdateTableRows] = useState(null);
 
   useEffect(() => {
+    //console.log('works useeffect in table')
     setTableRows(formikSlice);
   }, [formikSlice, tableRows]);
-
-  const onAdd = () => {
-    const newState = [...tableRows];
-    newState.push([]);
-    setTableRows(newState);
-    handleAdd([]);
-  };
-
-  const onEdit = (row) => {
-    const newState = [...tableRows];
-    const findedTableElement = newState.find((user) => user.id === row.id);
-    console.log(findedTableElement);
-    newState.splice(row.index, 1, findedTableElement);
-    setTableRows(newState);
-  };
 
   const columns = [
     {
@@ -78,16 +65,29 @@ function Users({ users, handleAdd, handleEdit }) {
     },
   ];
 
+
   const onClickAddUser = () => {
-    //onAdd();
     setUserFormActive(true);
   };
 
   const onClickEditUser = (row) => {
-    // onEdit(row);
     setRowData(row);
     setUserFormActive(true);
   };
+
+  const callBack = (user) => {
+     if(user){
+       if(JSON.stringify(user) !== JSON.stringify(rowData?.original)){
+          const newState = [...tableRows];
+           const findedElement = newState.find((item) => item.id === user.id);
+           const index = newState.indexOf(findedElement)
+           newState.splice(index, 1, user);
+           setUpdateTableRows(newState);
+       }
+     }
+  }
+
+
 
   return (
     <div className="field">
@@ -96,8 +96,8 @@ function Users({ users, handleAdd, handleEdit }) {
           Add user
         </button>
       </div>
-      <Table data={tableRows} columns={columns} rowKey="id" />
-      <UserForm active={userFormActive} setActive={setUserFormActive} row={rowData}></UserForm>
+      <Table data={tableRows} updateData={updateTableRows} columns={columns} rowKey="id" />
+      <UserForm callBack={callBack}  active={userFormActive} setActive={setUserFormActive} row={rowData}></UserForm>
     </div>
   );
 }

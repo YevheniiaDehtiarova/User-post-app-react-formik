@@ -121,7 +121,7 @@
   "users": [
     {
       "id": 7,
-      "firstName": "a",
+      "firstName": "Yevheniia",
       "lastName": "Дегтярева",
       "email": "jeni4ka2509@gmail.com",
       "address": {
@@ -329,9 +329,15 @@
     },
     {
       "id": 20,
+      "firstName": "Yevheniia",
+      "lastName": "Dehtiarova",
       "email": "",
-      "address": {},
-      "company": {}
+      "address": {
+        "street": "karazina"
+      },
+      "company": {
+        "scope": "777777"
+      }
     },
     {
       "id": 21,
@@ -350,6 +356,16 @@
       "company": {
         "name": "8",
         "scope": "8"
+      }
+    },
+    {
+      "id": 22,
+      "firstName": "Yevheniia",
+      "lastName": "Dehtiarova777777777",
+      "address": {},
+      "company": {
+        "name": "xbnf",
+        "scope": "7777"
       }
     }
   ],

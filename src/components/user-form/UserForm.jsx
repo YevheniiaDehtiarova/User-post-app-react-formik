@@ -6,11 +6,12 @@ import { useHttp } from "../hooks/http.hook";
 import * as Yup from 'yup';
 import userRoutes from "../app/routes/user.routes";
 
-const UserForm = ({ active, setActive, row }) => {
-  console.log(active, "STATUS");
-  console.log(row, "СТРОКА");
+const UserForm = ({ active, setActive, row, callBack }) => {
+  //console.log(active, "STATUS");
+  //console.log(row, "СТРОКА");
   const handleClose = () => setActive(false);
 
+  //console.log(callBack, 'CALLBACK')
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -30,22 +31,22 @@ const UserForm = ({ active, setActive, row }) => {
   useEffect(() => {
    //console.log("!!!!!!!!!!!!!!!!!!", row?.original);
     setFirstName(row?.original?.firstName);
-    setLastName(row?.original.lastName);
-    setUserName(row?.original.userName);
-    setEmail(row?.original.email);
-    setStreet(row?.original.address.street);
-    setBuilding(row?.original.address.building);
-    setCity(row?.original.address.city);
-    setZipcode(row?.original.address.zipcode);
-    setPhone(row?.original.phone);
-    setWebsite(row?.original.website);
-    setCompanyName(row?.original.company.name);
-    setCompanyScope(row?.original.company.scope);
+    setLastName(row?.original?.lastName);
+    setUserName(row?.original?.userName);
+    setEmail(row?.original?.email);
+    setStreet(row?.original?.address.street);
+    setBuilding(row?.original?.address.building);
+    setCity(row?.original?.address.city);
+    setZipcode(row?.original?.address.zipcode);
+    setPhone(row?.original?.phone);
+    setWebsite(row?.original?.website);
+    setCompanyName(row?.original?.company.name);
+    setCompanyScope(row?.original?.company.scope);
 
   }, [row]);
 
   const onSubmitHandler = (e, values) => {
-    console.log('SUBMIT WORKS');
+    //console.log('SUBMIT WORKS');
     e.preventDefault();
 
    const newUser =  {
@@ -68,19 +69,22 @@ const UserForm = ({ active, setActive, row }) => {
     },
   };
 
-  console.log(newUser);
+  //console.log(newUser);
+
+  callBack(newUser);
+
+ 
 
    if(!row) {
-    console.log('будем создавать юзера');
-  
+    //console.log('будем создавать юзера');
     request(userRoutes.createUser, "POST", JSON.stringify(newUser))
       .then((res) => res)
       .catch((err) => console.log(err));
 
    } else {
-    console.log('будем обновлять юзера');
-    const apiUrl = userRoutes.updateUser.replace('${id}', newUser.id);
+    //console.log('будем обновлять юзера');
 
+    const apiUrl = userRoutes.updateUser.replace('${id}', newUser.id);
     request(apiUrl, "PUT", JSON.stringify(newUser))
     .then((res) => res)
     .catch((err) => console.log(err));

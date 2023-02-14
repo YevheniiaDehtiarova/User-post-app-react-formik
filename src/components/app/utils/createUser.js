@@ -1,5 +1,4 @@
 function createUser(object) {
-console.log(object, 'object in create user')
   const user =  {
     id: object.id ? object.id : "",
     firstName: object.firstName,
@@ -19,7 +18,6 @@ console.log(object, 'object in create user')
       scope: object.companyScope,
     },
   };
-console.log(user, 'CREATED USER')
   return user;
 }
 
