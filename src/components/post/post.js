@@ -17,10 +17,6 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
     console.log(post, "use effect in post");
   }, [post]);
 
-  /*useEffect(() => {
-    console.log(posts, newPosts, "use effect in post");
-  },[ posts,newPosts]);*/
-
 
   const addPost = () => {
     setPostFormActive(true);
@@ -36,26 +32,11 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
 
   const deletePost = () => {};
 
-  /*const updatePosts = (newPost) => {
-    setPostActive(true)
-    let isUpdated = posts.find((item) => item.id===newPost.id);
-    if(isUpdated){
-      let findedPost = isUpdated;
-      let index = posts.indexOf(findedPost);
-      posts.splice(index, 1, newPost);
-      setNewPosts(posts);
-    } else {
-      posts.push(newPost);
-      setNewPosts(posts)
-    }
-  }*/
 
   const updatePost = (inputPost) => {
     console.log(inputPost, 'POST THAT UPDATE OR CREATE');
     getUpdatedPost(inputPost);
   }
-
-
 
   return (
       <div className="post-container">  
