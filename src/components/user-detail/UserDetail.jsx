@@ -2,7 +2,8 @@ import "./UserDetail.css";
 import { useEffect, useState } from "react";
 import UserForm from "../user-form/UserForm";
 import postRoutes from "../app/routes/post.routes";
-import Post from "../post/Post"
+import Post from "../post/Post";
+import { useHttp } from "../hooks/http.hook";
 
 const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
   const [userDetailFormActive, setUserDetailFormActive]= useState(false);
@@ -94,6 +95,26 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
     setUserDetailStatus(true);
     setUpdatedUser(user);
    }
+   const { request } = useHttp();
+
+   const updateExistingPosts = (newPost) => {
+    console.log(newPost, 'POST FROM USER DETAIL');
+    let postArray = [...postData];
+    console.log(postArray)
+    if(!newPost.id) {
+      console.log('будем добавлять пост');
+      let findedPost = postArray.find((item) => item.id===newPost.id);
+      let index = postArray.indexOf(findedPost);
+      postArray.splice(index, 1, newPost);
+      console.log(postArray, 'UPDATE POST ARRAY')
+      setPostData(postArray);
+    }
+    else{
+      console.log('будем обновлять пост');
+      postArray.push(newPost);
+      setPostData(postArray);
+    }
+   }
       return (
       active && (
           <div>
@@ -160,8 +181,13 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
               </div>
             </div>
             </div>
-
-            <Post id={tableRow.id} posts={postData} active={postFormActive} setActive={setPostFormActive}></Post>
+            {postData.map((post) => {
+              console.log(post);
+              return (
+                 <Post  getUpdatedPost={updateExistingPosts} id={tableRow.id} post={post} active={postFormActive} setActive={setPostFormActive}></Post>
+              )  
+            })
+}
         
             </div>
            }

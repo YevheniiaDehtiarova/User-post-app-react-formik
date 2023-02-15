@@ -1,26 +1,25 @@
 import { useEffect, useState } from "react";
 import PostForm from "../post-form/PostForm";
 import "./Post.css";
-import { useCallback } from "react";
 
-const Post = ({posts, active,id} ) => {
 
- console.log(posts, active, id, 'DATA INPUT IN POSTS')
+const Post = ({post, active,id, getUpdatedPost} ) => {
+
+ console.log(post, active, id, 'DATA INPUT IN POSTS')
 
   const [postFormActive, setPostFormActive] = useState(false);
   const [postActive, setPostActive] = useState(true);
 
   const [ postData, setPostData]= useState([]);
 
-  const [newPosts, setNewPosts] = useState([]);
 
   useEffect(() => {
-    console.log(posts, "use effect in post");
-  }, [posts]);
+    console.log(post, "use effect in post");
+  }, [post]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     console.log(posts, newPosts, "use effect in post");
-  },[ posts,newPosts]);
+  },[ posts,newPosts]);*/
 
 
   const addPost = () => {
@@ -37,7 +36,7 @@ const Post = ({posts, active,id} ) => {
 
   const deletePost = () => {};
 
-  const updatePosts = (newPost) => {
+  /*const updatePosts = (newPost) => {
     setPostActive(true)
     let isUpdated = posts.find((item) => item.id===newPost.id);
     if(isUpdated){
@@ -49,18 +48,22 @@ const Post = ({posts, active,id} ) => {
       posts.push(newPost);
       setNewPosts(posts)
     }
+  }*/
+
+  const updatePost = (inputPost) => {
+    console.log(inputPost, 'POST THAT UPDATE OR CREATE');
+    getUpdatedPost(inputPost);
   }
 
 
 
-  return posts?.map((post, index) => {
-    return (
+  return (
       <div className="post-container">  
       {(active && postActive) && (
       <div>
       <div className="btn-container">
         <button onClick={addPost}>Add Post</button>
-        <button onClick={() => editPost(post, index)}>Edit Post</button>
+        <button onClick={() => editPost(post)}>Edit Post</button>
         <button onClick={deletePost}>Delete Post</button>
       </div>
       <div className="post-body">
@@ -71,15 +74,13 @@ const Post = ({posts, active,id} ) => {
       )
   }
       <PostForm
+        getPost={updatePost}
         userId = {id}
-        getPost = {updatePosts}
         active={postFormActive}
         setActive={setPostFormActive}
         post={postData}
       ></PostForm>
     </div>
-    )
-      })
-};
-
+  )
+}
 export default Post;

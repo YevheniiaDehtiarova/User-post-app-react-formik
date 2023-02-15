@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import "./PostForm.css";
 import { Formik , Form, Field} from "formik";
 import * as Yup from 'yup';
+import postRoutes from "../app/routes/post.routes";
 import { useHttp } from "../hooks/http.hook";
-import postRoutes from "../app/routes/post.routes"
+
 
 const PostForm = ({active,setActive, post, getPost, userId}) => {
   console.log(active,post, 'DATA FROM POST FORM');
 
   const [postTitle, setPostTitle] = useState(null);
   const [postBody, setPostBody] = useState(null);
-
+ 
   const { request } = useHttp();
 
   useEffect(()=> {
