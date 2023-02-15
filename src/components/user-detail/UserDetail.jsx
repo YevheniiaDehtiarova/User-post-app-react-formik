@@ -4,7 +4,7 @@ import UserForm from "../user-form/UserForm";
 import postRoutes from "../app/routes/post.routes";
 import Post from "../post/Post"
 
-const UserDetail = ({tableRow, active, setActive}) => {
+const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
   console.log(active, tableRow, 'USER DETAIL');
   const [userFormActive, setUserFormActive]= useState(false);
   const [postFormActive, setPostFormActive]= useState(false);
@@ -24,8 +24,10 @@ const UserDetail = ({tableRow, active, setActive}) => {
 
   const [postData, setPostData] = useState([]);
 
+  const [ userDetailStatus, setUserDetailStatus] = useState(true);
+
   useEffect(() => {
-     console.log('useEffect works in userDetail')
+     //console.log('useEffect works in userDetail')
      setFirstName(tableRow?.firstName);
      setLastName(tableRow?.lastName);
      setUserName(tableRow?.userName);
@@ -38,7 +40,7 @@ const UserDetail = ({tableRow, active, setActive}) => {
      setWebsite(tableRow?.website);
      setCompanyName(tableRow?.company?.name);
      setCompanyScope(tableRow?.company?.scope);
-   }, [tableRow]);
+   }, [tableRow,sendUpdateStatus]);
 
    useEffect(() => {
     if(tableRow){
@@ -59,17 +61,19 @@ const UserDetail = ({tableRow, active, setActive}) => {
     });
   }
     
-   },[tableRow])
+   },[tableRow,])
 
 
 
    const goBack =() => {
      setActive(false);
+     sendUpdateStatus(false)
    }
 
    const openUserModal = () => {
     console.log('open modal works')
       setUserFormActive(true);
+      setUserDetailStatus(false);
    }
 
 
@@ -77,6 +81,8 @@ const UserDetail = ({tableRow, active, setActive}) => {
       return (
         active && (
           <div>
+            {userDetailStatus && 
+            <div>
             <Post posts={postData} active={postFormActive} setActive={setPostFormActive}></Post>
             USER DETAIL WORK
             <div className="user-detail-btn-container">
@@ -138,6 +144,8 @@ const UserDetail = ({tableRow, active, setActive}) => {
                 </span>
               </div>
             </div>
+            </div>
+           }
             <UserForm  active={userFormActive} setActive={setUserFormActive} row={tableRow}></UserForm>
           </div>
         )

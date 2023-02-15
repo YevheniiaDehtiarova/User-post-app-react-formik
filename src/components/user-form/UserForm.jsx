@@ -6,7 +6,7 @@ import { useHttp } from "../hooks/http.hook";
 import * as Yup from 'yup';
 import userRoutes from "../app/routes/user.routes";
 
-const UserForm = ({ active, setActive, row, callBack }) => {
+const UserForm = ({ active, setActive, row, sendUpdateUser }) => {
   //console.log(active, "STATUS");
   // console.log(active, row, "СТРОКА user form");
   //console.log(callBack, 'CALLBACK')
@@ -70,7 +70,9 @@ const UserForm = ({ active, setActive, row, callBack }) => {
   };
 
   //console.log(newUser);
-  callBack(newUser);
+  sendUpdateUser(newUser);
+
+  setActive(false);
 
    if(!row) {
     //console.log('будем создавать юзера');
@@ -101,7 +103,10 @@ const UserForm = ({ active, setActive, row, callBack }) => {
     setCompanyScope("");
   };
 
-  const handleClose = () => setActive(false);
+  const handleClose = () => {
+    setActive(false);
+    sendUpdateUser(false)
+  }
 
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()

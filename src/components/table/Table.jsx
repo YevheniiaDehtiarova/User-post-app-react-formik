@@ -1,12 +1,17 @@
 import "./Table.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { useTable } from "react-table";
-import { useState } from "react";
-import UserDetail from "../user-detail/UserDetail"
 
-function Table({ columns, data, rowKey, updateData }) {
+
+function Table({ columns, data, rowKey, updateData, active, setActive }) {
   //console.log(columns,data,rowKey);
   //console.log(updateData, 'UPDATE DATA')
+
+  useEffect(() => {
+     //console.log('ИЗМНЕНЕНИЯ В ТАБЛИЦЕ')
+  }, [active])
+
+  //console.log(active, 'ACTIVE FROM TABLE');
   if(updateData) {
     data = updateData
   }
@@ -24,6 +29,7 @@ function Table({ columns, data, rowKey, updateData }) {
 
 
   return (
+    active && (
     <table  className="table-main"{...getTableProps()}>
       <thead>
         {headerGroups.map(headerGroup => (
@@ -50,6 +56,7 @@ function Table({ columns, data, rowKey, updateData }) {
         })}
       </tbody>
     </table>
+    )
   );
 }
 
