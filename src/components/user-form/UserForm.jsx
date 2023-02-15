@@ -6,8 +6,8 @@ import { useHttp } from "../hooks/http.hook";
 import * as Yup from 'yup';
 import userRoutes from "../app/routes/user.routes";
 
-const UserForm = ({ active, setActive, row, sendUpdateUser }) => {
-  //console.log(active, "STATUS");
+const UserForm = ({ active, activeDetail, setActive, setActiveDetail, row, sendUpdateUser, sendUpdateDetail }) => {
+  console.log(active, activeDetail, "STATUSЫ");
   // console.log(active, row, "СТРОКА user form");
   //console.log(callBack, 'CALLBACK')
 
@@ -70,9 +70,17 @@ const UserForm = ({ active, setActive, row, sendUpdateUser }) => {
   };
 
   //console.log(newUser);
+  if(active){
+  console.log('ACTIVE TRUE')
   sendUpdateUser(newUser);
-
   setActive(false);
+  } 
+
+  if(activeDetail){
+    console.log('ACTIVE DETAIL TRUE');
+    setActiveDetail(false);
+    sendUpdateDetail(newUser);
+  }
 
    if(!row) {
     //console.log('будем создавать юзера');
@@ -104,8 +112,15 @@ const UserForm = ({ active, setActive, row, sendUpdateUser }) => {
   };
 
   const handleClose = () => {
-    setActive(false);
-    sendUpdateUser(false)
+    if(active){
+      setActive(false);
+      sendUpdateUser(false);
+      } 
+    
+      if(activeDetail){
+        setActiveDetail(false);
+        sendUpdateDetail(false);
+      }
   }
 
   const validationSchema = Yup.object().shape({
@@ -158,7 +173,7 @@ const UserForm = ({ active, setActive, row, sendUpdateUser }) => {
   }
 
   return (
-    active && (
+    (active || activeDetail) && (
       <div>
         <h1>Add/Edit User</h1>
         <Formik enableReinitialize

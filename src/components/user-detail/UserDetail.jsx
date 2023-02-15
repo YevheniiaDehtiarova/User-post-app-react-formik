@@ -5,8 +5,8 @@ import postRoutes from "../app/routes/post.routes";
 import Post from "../post/Post"
 
 const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
-  console.log(active, tableRow, 'USER DETAIL');
-  const [userFormActive, setUserFormActive]= useState(false);
+  //console.log(active, tableRow, 'USER DETAIL');
+  const [userDetailFormActive, setUserDetailFormActive]= useState(false);
   const [postFormActive, setPostFormActive]= useState(false);
 
   const [firstName, setFirstName] = useState("");
@@ -26,25 +26,45 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
 
   const [ userDetailStatus, setUserDetailStatus] = useState(true);
 
+  const [updatedUser, setUpdatedUser] = useState(null);
+
   useEffect(() => {
-     //console.log('useEffect works in userDetail')
-     setFirstName(tableRow?.firstName);
-     setLastName(tableRow?.lastName);
-     setUserName(tableRow?.userName);
-     setEmail(tableRow?.email);
-     setStreet(tableRow?.address?.street);
-     setBuilding(tableRow?.address?.building);
-     setCity(tableRow?.address?.city);
-     setZipcode(tableRow?.address?.zipcode);
-     setPhone(tableRow?.phone);
-     setWebsite(tableRow?.website);
-     setCompanyName(tableRow?.company?.name);
-     setCompanyScope(tableRow?.company?.scope);
-   }, [tableRow,sendUpdateStatus]);
+    //console.log('useEffect works in userDetail');
+    //console.log(tableRow, updatedUser, 'input paramets in use effect detail');
+    if(tableRow) {
+      setFirstName(tableRow?.firstName);
+      setLastName(tableRow?.lastName);
+      setUserName(tableRow?.userName);
+      setEmail(tableRow?.email);
+      setStreet(tableRow?.address?.street);
+      setBuilding(tableRow?.address?.building);
+      setCity(tableRow?.address?.city);
+      setZipcode(tableRow?.address?.zipcode);
+      setPhone(tableRow?.phone);
+      setWebsite(tableRow?.website);
+      setCompanyName(tableRow?.company?.name);
+      setCompanyScope(tableRow?.company?.scope);
+    }
+
+    if(updatedUser){
+    setFirstName(updatedUser?.firstName);
+    setLastName(updatedUser?.lastName);
+    setUserName(updatedUser?.userName);
+    setEmail(updatedUser?.email);
+    setStreet(updatedUser?.address?.street);
+    setBuilding(updatedUser?.address?.building);
+    setCity(updatedUser?.address?.city);
+    setZipcode(updatedUser?.address?.zipcode);
+    setPhone(updatedUser?.phone);
+    setWebsite(updatedUser?.website);
+    setCompanyName(updatedUser?.company?.name);
+    setCompanyScope(updatedUser?.company?.scope);
+    }
+
+  }, [tableRow,sendUpdateStatus,updatedUser]);
 
    useEffect(() => {
     if(tableRow){
-    //const apiUrl = postRoutes.getById.replace('${id}', tableRow.id);
     fetch(
       postRoutes.getAll,
     )
@@ -61,25 +81,49 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
     });
   }
     
-   },[tableRow,])
+   },[tableRow])
 
 
 
    const goBack =() => {
      setActive(false);
-     sendUpdateStatus(false)
+     sendUpdateStatus(false);
    }
 
    const openUserModal = () => {
     console.log('open modal works')
-      setUserFormActive(true);
+      setUserDetailFormActive(true);
       setUserDetailStatus(false);
    }
+
+   const getUserDetail = (user) => {
+    console.log(user, 'ПОЛУЧИЛИ ЮЗЕРА НОВОГО ИЗ ДЕТАЛЕЙ');
+    setUserDetailStatus(true);
+    setUpdatedUser(user);
+   }
+
+   /*useEffect(() => {
+    console.log('РАБОТАЕТ НОВЫЙ ЮЗ ЕЭЭФЕКТ');
+    console.log(updatedUser, 'UPDATED USER');
+    setFirstName(updatedUser?.firstName);
+    setLastName(updatedUser?.lastName);
+    setUserName(updatedUser?.userName);
+    setEmail(updatedUser?.email);
+    setStreet(updatedUser?.address?.street);
+    setBuilding(updatedUser?.address?.building);
+    setCity(updatedUser?.address?.city);
+    setZipcode(updatedUser?.address?.zipcode);
+    setPhone(updatedUser?.phone);
+    setWebsite(updatedUser?.website);
+    setCompanyName(updatedUser?.company?.name);
+    setCompanyScope(updatedUser?.company?.scope);
+
+   }, [updatedUser])*/
 
 
 
       return (
-        active && (
+      active && (
           <div>
             {userDetailStatus && 
             <div>
@@ -146,7 +190,7 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
             </div>
             </div>
            }
-            <UserForm  active={userFormActive} setActive={setUserFormActive} row={tableRow}></UserForm>
+            <UserForm  sendUpdateDetail={getUserDetail} activeDetail={userDetailFormActive} setActiveDetail={setUserDetailFormActive} row={tableRow}></UserForm>
           </div>
         )
       );

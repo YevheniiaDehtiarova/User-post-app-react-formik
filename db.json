@@ -121,7 +121,7 @@
   "users": [
     {
       "id": 7,
-      "firstName": "Yevheniia",
+      "firstName": "Yevheniia7980123",
       "lastName": "Дегтярева",
       "email": "jeni4ka2509@gmail.com",
       "address": {
@@ -139,9 +139,8 @@
     },
     {
       "id": 8,
-      "firstName": "Евгения",
+      "firstName": "Евгения7",
       "lastName": "Дегтярева",
-      "username": "7777",
       "email": "jeni4ka2509@gmail.com",
       "address": {
         "street": "просп. Победы,",
