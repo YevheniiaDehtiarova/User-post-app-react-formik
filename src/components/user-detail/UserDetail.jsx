@@ -71,6 +71,7 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
       if(modifyData.length) {
         setPostData(modifyData);
         setPostFormActive(true);
+        console.log(tableRow)
       }
     });
   }
@@ -160,7 +161,7 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
             </div>
             </div>
 
-            <Post posts={postData} active={postFormActive} setActive={setPostFormActive}></Post>
+            <Post id={tableRow.id} posts={postData} active={postFormActive} setActive={setPostFormActive}></Post>
         
             </div>
            }
