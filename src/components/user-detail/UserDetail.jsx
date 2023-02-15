@@ -5,7 +5,6 @@ import postRoutes from "../app/routes/post.routes";
 import Post from "../post/Post"
 
 const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
-  //console.log(active, tableRow, 'USER DETAIL');
   const [userDetailFormActive, setUserDetailFormActive]= useState(false);
   const [postFormActive, setPostFormActive]= useState(false);
 
@@ -29,8 +28,6 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
   const [updatedUser, setUpdatedUser] = useState(null);
 
   useEffect(() => {
-    //console.log('useEffect works in userDetail');
-    //console.log(tableRow, updatedUser, 'input paramets in use effect detail');
     if(tableRow) {
       setFirstName(tableRow?.firstName);
       setLastName(tableRow?.lastName);
@@ -70,10 +67,7 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
     )
     .then((response) => response.json())
     .then((data) => {
-      console.log(data, 'POSTS FROM FETCH');
-      console.log(tableRow);
       const modifyData = data.filter(item => item.userId === tableRow.id);
-      console.log(modifyData, 'MODIFY DATA');
       if(modifyData.length) {
         setPostData(modifyData);
         setPostFormActive(true);
@@ -91,37 +85,14 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
    }
 
    const openUserModal = () => {
-    console.log('open modal works')
       setUserDetailFormActive(true);
       setUserDetailStatus(false);
    }
 
    const getUserDetail = (user) => {
-    console.log(user, 'ПОЛУЧИЛИ ЮЗЕРА НОВОГО ИЗ ДЕТАЛЕЙ');
     setUserDetailStatus(true);
     setUpdatedUser(user);
    }
-
-   /*useEffect(() => {
-    console.log('РАБОТАЕТ НОВЫЙ ЮЗ ЕЭЭФЕКТ');
-    console.log(updatedUser, 'UPDATED USER');
-    setFirstName(updatedUser?.firstName);
-    setLastName(updatedUser?.lastName);
-    setUserName(updatedUser?.userName);
-    setEmail(updatedUser?.email);
-    setStreet(updatedUser?.address?.street);
-    setBuilding(updatedUser?.address?.building);
-    setCity(updatedUser?.address?.city);
-    setZipcode(updatedUser?.address?.zipcode);
-    setPhone(updatedUser?.phone);
-    setWebsite(updatedUser?.website);
-    setCompanyName(updatedUser?.company?.name);
-    setCompanyScope(updatedUser?.company?.scope);
-
-   }, [updatedUser])*/
-
-
-
       return (
       active && (
           <div>

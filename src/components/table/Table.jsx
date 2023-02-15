@@ -4,14 +4,9 @@ import { useTable } from "react-table";
 
 
 function Table({ columns, data, rowKey, updateData, active, setActive }) {
-  //console.log(columns,data,rowKey);
-  //console.log(updateData, 'UPDATE DATA')
-
   useEffect(() => {
-     //console.log('ИЗМНЕНЕНИЯ В ТАБЛИЦЕ')
   }, [active])
 
-  //console.log(active, 'ACTIVE FROM TABLE');
   if(updateData) {
     data = updateData
   }
@@ -20,7 +15,7 @@ function Table({ columns, data, rowKey, updateData, active, setActive }) {
     getTableBodyProps,
     headerGroups,
     rows,
-    prepareRow /// Prepare the row (this function needs to be called for each row before getting the row props)
+    prepareRow
   } = useTable({
     columns,
     data,

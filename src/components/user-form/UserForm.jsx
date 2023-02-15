@@ -7,9 +7,6 @@ import * as Yup from 'yup';
 import userRoutes from "../app/routes/user.routes";
 
 const UserForm = ({ active, activeDetail, setActive, setActiveDetail, row, sendUpdateUser, sendUpdateDetail }) => {
-  console.log(active, activeDetail, "STATUSЫ");
-  // console.log(active, row, "СТРОКА user form");
-  //console.log(callBack, 'CALLBACK')
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -24,12 +21,9 @@ const UserForm = ({ active, activeDetail, setActive, setActiveDetail, row, sendU
   const [companyName, setCompanyName] = useState("");
   const [companyScope, setCompanyScope] = useState("");
 
-
-
   const { request } = useHttp();
 
   useEffect(() => {
-   console.log('use effect works in userform');
     setFirstName(row?.firstName);
     setLastName(row?.lastName);
     setUserName(row?.userName);
@@ -45,8 +39,7 @@ const UserForm = ({ active, activeDetail, setActive, setActiveDetail, row, sendU
 
   }, [row]);
 
-  const onSubmitHandler = (e, values) => {
-    //console.log('SUBMIT WORKS');
+  const onSubmitHandler = (e) => {
     e.preventDefault();
 
    const newUser =  {
@@ -69,27 +62,22 @@ const UserForm = ({ active, activeDetail, setActive, setActiveDetail, row, sendU
     },
   };
 
-  //console.log(newUser);
   if(active){
-  console.log('ACTIVE TRUE')
   sendUpdateUser(newUser);
   setActive(false);
   } 
 
   if(activeDetail){
-    console.log('ACTIVE DETAIL TRUE');
     setActiveDetail(false);
     sendUpdateDetail(newUser);
   }
 
    if(!row) {
-    //console.log('будем создавать юзера');
     request(userRoutes.createUser, "POST", JSON.stringify(newUser))
       .then((res) => res)
       .catch((err) => console.log(err));
 
    } else {
-    //console.log('будем обновлять юзера');
 
     const apiUrl = userRoutes.updateUser.replace('${id}', newUser.id);
     request(apiUrl, "PUT", JSON.stringify(newUser))

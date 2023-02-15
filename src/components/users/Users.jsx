@@ -21,7 +21,6 @@ function Users({ users }) {
   const [userTableActive, setUserTableActive]=useState(true);
 
   useEffect(() => {
-    //console.log('works useeffect in table');
     setTableRows(formikSlice);
   }, [formikSlice, tableRows]);
 
@@ -80,25 +79,20 @@ function Users({ users }) {
   const onClickAddUser = () => {
     setUserFormActive(true);
     setUserTableActive(false);
-    //console.log(userTableActive, 'USER TABLE ACTIVE ADD ROW')
   };
   const onClickOpenUser  = (row) => {
-    //console.log(row, 'ROW IN OPEN TABLE ROW');
     setTableRow(row.original);
     setUserDetailActive(true);
     setUserTableActive(false);
-    //console.log(userTableActive, 'USER TABLE ACTIVE OPEN ROW')
   }
 
   const onClickEditUser = (row) => {
     setRowData(row.original);
     setUserFormActive(true);
     setUserTableActive(false);
-    //console.log(userTableActive, 'USER TABLE ACTIVE EDITE ROW')
   };
 
   const getUserFromUserForm = (user) => {
-    //console.log('работает колбэк')
     setUserTableActive(true);
      if(user){     
        if(JSON.stringify(user) !== JSON.stringify(rowData?.original)){
@@ -112,8 +106,6 @@ function Users({ users }) {
   }
 
   const getUserDetailStatus = (status) => {
-    //console.log('работает колбэк с дитейла');
-    //console.log(status, 'STATUS FROM CALLBACK');
     if (!status) {
       setUserTableActive(true);
     }

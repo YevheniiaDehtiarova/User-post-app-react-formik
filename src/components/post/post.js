@@ -3,21 +3,15 @@ import PostForm from "../post-form/PostForm";
 import "./Post.css";
 
 const Post = ({posts, active} ) => {
-  /*const [postTitle, setPostTitle]= useState('');
- const [postBody, setPostBody] = useState('');*/
 
- console.log(posts, active, 
-  'DATA INPUT IN POSTS')
+ console.log(posts, active, 'DATA INPUT IN POSTS')
 
   const [postFormActive, setPostFormActive] = useState(false);
 
-  const [ postsUser, setPostsUser]= useState([]);
+  //const [ postsUser, setPostsUser]= useState([]);
 
   useEffect(() => {
     console.log(posts, "use effect in post");
-    //posts.map(item => console.log(item))
-    /*setPostTitle(post.post.title);
-    setPostBody(post.post.body);*/
   }, [posts]);
 
   const addPost = () => {
