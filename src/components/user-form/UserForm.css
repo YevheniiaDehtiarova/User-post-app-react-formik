@@ -1,0 +1,23 @@
+.user-form-block{
+    max-width: 100%;
+    width: 800px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+.user-form-btn{
+    width: 120px;
+    background-color: #ff6358;
+    color: white;
+    height: 50px;
+    margin-top: 20px;
+    border: none;
+    text-align: center;
+    border-radius: 4px;
+    margin-right: 30px;
+}
+.user-from-btn-block{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

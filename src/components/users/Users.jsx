@@ -62,11 +62,11 @@ function Users({ users }) {
       Header: "Actions",
       id: "actions",
       Cell: ({ row }) => (
-        <div>
-          <button type="button" onClick={() => onClickEditUser(row)}>
+        <div className="user-btn-block">
+          <button className="user-btn" type="button" onClick={() => onClickEditUser(row)}>
             edit
           </button>
-          <button type="button" onClick={() => onClickOpenUser(row)}>
+          <button className="user-btn" type="button" onClick={() => onClickOpenUser(row)}>
             open
           </button>
         </div>
@@ -106,7 +106,7 @@ function Users({ users }) {
   return (
     <div className="field">
       <div>
-        <button type="button" onClick={onClickAddUser}>
+        <button className="user-btn" type="button" onClick={onClickAddUser}>
           Add user
         </button>
       </div>

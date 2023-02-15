@@ -2,15 +2,20 @@ import { useEffect, useState } from "react";
 import PostForm from "../post-form/PostForm";
 import "./Post.css";
 
-const Post = (posts) => {
+const Post = ({posts, active} ) => {
   /*const [postTitle, setPostTitle]= useState('');
  const [postBody, setPostBody] = useState('');*/
 
+ console.log(posts, active, 
+  'DATA INPUT IN POSTS')
+
   const [postFormActive, setPostFormActive] = useState(false);
+
+  const [ postsUser, setPostsUser]= useState([]);
 
   useEffect(() => {
     console.log(posts, "use effect in post");
-    posts.posts.map(item => console.log(item))
+    //posts.map(item => console.log(item))
     /*setPostTitle(post.post.title);
     setPostBody(post.post.body);*/
   }, [posts]);
@@ -25,8 +30,9 @@ const Post = (posts) => {
   const deletePost = () => {};
 
   return (
-    posts.posts.length &&
-    posts.posts.map((post) => {
+    posts.length && (
+      posts.map((post) => {
+        console.log(post, 'POST IN RETURN');
       <div>
         <div className="btn-container">
           <button onClick={addPost}>Add Post</button>
@@ -42,8 +48,10 @@ const Post = (posts) => {
           setActive={setPostFormActive}
           post={post}
         ></PostForm>
-      </div>;
-    })
+      </div>
+      })
+    )
+    
   );
 };
 

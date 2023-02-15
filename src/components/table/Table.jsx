@@ -1,4 +1,4 @@
-import "./table.css";
+import "./Table.css";
 import React from "react";
 import { useTable } from "react-table";
 import { useState } from "react";
@@ -24,10 +24,10 @@ function Table({ columns, data, rowKey, updateData }) {
 
 
   return (
-    <table {...getTableProps()} style={{ width: "100%" }}>
+    <table  className="table-main"{...getTableProps()}>
       <thead>
         {headerGroups.map(headerGroup => (
-          <tr
+          <tr className="table-header"
             {...headerGroup.getHeaderGroupProps()}
             style={{ background: "#ccc" }}
           >
@@ -41,9 +41,9 @@ function Table({ columns, data, rowKey, updateData }) {
         {rows.map((row) => {
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()}>
+            <tr className="table-row" {...row.getRowProps()} >
               {row.cells.map(cell => (
-                <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                <td  className="table-cell"{...cell.getCellProps()}>{cell.render("Cell")}</td>
               ))}
             </tr>
           );

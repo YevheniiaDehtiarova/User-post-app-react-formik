@@ -173,7 +173,7 @@ const UserForm = ({ active, setActive, row, callBack }) => {
           }}
           validationSchema={validationSchema}
         >
-          <Form>
+          <Form className="user-form-block">
             <label htmlFor="firstName">Enter Firstname</label>
             <Field id="firstName" name="firstName" onChange={handleFirstNameOnChange}/>
 
@@ -216,9 +216,11 @@ const UserForm = ({ active, setActive, row, callBack }) => {
             <label htmlFor="companyScope">Enter companyScope</label>
             <Field id="companyScope" name="companyScope" onChange={handleCompanyScopeOnChange}/>
 
-            <button onClick={handleClose}>x</button>
+            <div className="user-from-btn-block">
+            <button className="user-form-btn" onClick={handleClose}>x</button>
 
-            <button type="submit" onClick={onSubmitHandler}>Submit</button>
+            <button className="user-form-btn" type="submit" onClick={onSubmitHandler}>Submit</button>
+            </div>
           </Form>
         </Formik>
       </div>

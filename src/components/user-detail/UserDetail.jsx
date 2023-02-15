@@ -7,6 +7,7 @@ import Post from "../post/Post"
 const UserDetail = ({tableRow, active, setActive}) => {
   console.log(active, tableRow, 'USER DETAIL');
   const [userFormActive, setUserFormActive]= useState(false);
+  const [postFormActive, setPostFormActive]= useState(false);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -47,8 +48,14 @@ const UserDetail = ({tableRow, active, setActive}) => {
     )
     .then((response) => response.json())
     .then((data) => {
-      console.log(data, 'POSTS FROM FETCH')
-      setPostData(data);
+      console.log(data, 'POSTS FROM FETCH');
+      console.log(tableRow);
+      const modifyData = data.filter(item => item.userId === tableRow.id);
+      console.log(modifyData, 'MODIFY DATA');
+      if(modifyData.length) {
+        setPostData(modifyData);
+        setPostFormActive(true);
+      }
     });
   }
     
@@ -70,6 +77,7 @@ const UserDetail = ({tableRow, active, setActive}) => {
       return (
         active && (
           <div>
+            <Post posts={postData} active={postFormActive} setActive={setPostFormActive}></Post>
             USER DETAIL WORK
             <div className="user-detail-btn-container">
               <button onClick={goBack}>Go to users</button>
@@ -130,7 +138,6 @@ const UserDetail = ({tableRow, active, setActive}) => {
                 </span>
               </div>
             </div>
-            <Post posts={postData}></Post>
             <UserForm  active={userFormActive} setActive={setUserFormActive} row={tableRow}></UserForm>
           </div>
         )
