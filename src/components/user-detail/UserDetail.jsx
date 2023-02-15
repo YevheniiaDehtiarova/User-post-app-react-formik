@@ -98,8 +98,7 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
           <div>
             {userDetailStatus && 
             <div>
-            <Post posts={postData} active={postFormActive} setActive={setPostFormActive}></Post>
-            USER DETAIL WORK
+            <div className="user-detail-container">
             <div className="user-detail-btn-container">
               <button onClick={goBack}>Go to users</button>
               <button onClick={openUserModal}>Edit User</button>
@@ -159,6 +158,10 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
                 </span>
               </div>
             </div>
+            </div>
+
+            <Post posts={postData} active={postFormActive} setActive={setPostFormActive}></Post>
+        
             </div>
            }
             <UserForm  sendUpdateDetail={getUserDetail} activeDetail={userDetailFormActive} setActiveDetail={setUserDetailFormActive} row={tableRow}></UserForm>

@@ -23,30 +23,26 @@ const Post = ({posts, active} ) => {
 
   const deletePost = () => {};
 
-  return (
-    posts.length && (
-      posts.map((post) => {
-        console.log(post, 'POST IN RETURN');
-      <div>
-        <div className="btn-container">
-          <button onClick={addPost}>Add Post</button>
-          <button onClick={editPost}>Edit Post</button>
-          <button onClick={deletePost}>Delete Post</button>
-        </div>
-        <div className="post-container">
-          <p className="post-title">{post.title}</p>
-          <p className="post-text">{post.body}</p>
-        </div>
-        <PostForm
-          active={postFormActive}
-          setActive={setPostFormActive}
-          post={post}
-        ></PostForm>
+  return posts?.map((post) => {
+    return (
+      <div className="post-container">
+      <div className="btn-container">
+        <button onClick={addPost}>Add Post</button>
+        <button onClick={editPost}>Edit Post</button>
+        <button onClick={deletePost}>Delete Post</button>
       </div>
-      })
+      <div className="post-body">
+        <p className="post-body__title">{post.title}</p>
+        <p className="post-body__text">{post.body}</p>
+      </div>
+      <PostForm
+        active={postFormActive}
+        setActive={setPostFormActive}
+        post={post}
+      ></PostForm>
+    </div>
     )
-    
-  );
+      })
 };
 
 export default Post;

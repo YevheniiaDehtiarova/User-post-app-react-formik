@@ -1,0 +1,20 @@
+.user-detail-btn-container{
+    display: flex;
+    justify-content:  space-around;
+}
+.user-detail-btn-container button {
+    width: 120px;
+    background-color: #ff6358;
+    color: white;
+    height: 50px;
+    margin-top: 20px;
+    border: none;
+    text-align: center;
+    border-radius: 4px;
+    margin-right: 30px;
+}
+.user-detail-container{
+    width: 600px;
+    max-width: 100%;
+    border: 1px solid salmon;
+}
