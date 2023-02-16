@@ -2,7 +2,7 @@
     display: flex;
     justify-content:  space-around;
 }
-.user-detail-btn-container button {
+.user-detail-btn-container button, .add-post-btn {
     width: 120px;
     background-color: #ff6358;
     color: white;

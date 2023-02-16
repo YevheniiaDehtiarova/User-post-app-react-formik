@@ -4,7 +4,7 @@
     max-width: 100%;
     width: 600px;
 }
-.btn-container button{
+.btn-container button, .add-post-btn{
     width: 120px;
     background-color: #ff6358;
     color: white;

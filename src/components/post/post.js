@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import PostForm from "../post-form/PostForm";
 import "./Post.css";
+import postRoutes from "../app/routes/post.routes";
+import { useHttp } from "../hooks/http.hook";
 
 
 const Post = ({post, active,id, getUpdatedPost} ) => {
@@ -12,30 +14,35 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
 
   const [ postData, setPostData]= useState([]);
 
+  const { request } = useHttp();
+
 
   useEffect(() => {
     console.log(post, "use effect in post");
   }, [post]);
 
 
-  const addPost = () => {
-    setPostFormActive(true);
-    setPostActive(false);
-  };
-  
-  const editPost = (post, index) => {
-    console.log(post, index, 'POST IN EDIT');
+  const editPost = (post) => {
+    //console.log(post, index, 'POST IN EDIT');
     setPostData(post)
     setPostFormActive(true);
     setPostActive(false);
   };
 
-  const deletePost = () => {};
-
+  const deletePost = (post) => {
+    console.log(post, 'POST WILL DELETE');
+    const apiUrl = postRoutes.delete.replace('${id}', post.id);
+    request(apiUrl, "DELETE", JSON.stringify(post))
+    .then((res) => res)
+    .catch((err) => console.log(err));
+    post.isDeleted = true;
+    getUpdatedPost(post);
+  };
 
   const updatePost = (inputPost) => {
     console.log(inputPost, 'POST THAT UPDATE OR CREATE');
     getUpdatedPost(inputPost);
+    setPostActive(true);
   }
 
   return (
@@ -43,9 +50,8 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
       {(active && postActive) && (
       <div>
       <div className="btn-container">
-        <button onClick={addPost}>Add Post</button>
         <button onClick={() => editPost(post)}>Edit Post</button>
-        <button onClick={deletePost}>Delete Post</button>
+        <button onClick={() => deletePost(post)}>Delete Post</button>
       </div>
       <div className="post-body">
         <p className="post-body__title">{post.title}</p>

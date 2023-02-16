@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import UserForm from "../user-form/UserForm";
 import postRoutes from "../app/routes/post.routes";
 import Post from "../post/Post";
-import { useHttp } from "../hooks/http.hook";
 
 const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
   const [userDetailFormActive, setUserDetailFormActive]= useState(false);
@@ -95,24 +94,37 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
     setUserDetailStatus(true);
     setUpdatedUser(user);
    }
-   const { request } = useHttp();
+
+   const addPost = () => {
+    console.log('будем добавлять пост')
+   }
 
    const updateExistingPosts = (newPost) => {
     console.log(newPost, 'POST FROM USER DETAIL');
+
     let postArray = [...postData];
     console.log(postArray)
+
+    if(newPost.isDeleted) {
+      //console.log('будем удалять');
+      const deletedPost = postArray.find((item) => item.id===newPost.id);
+      const index = postArray.indexOf(deletedPost);
+      postArray.splice(index,1);
+      setPostData(postArray);
+    } else {
     if(!newPost.id) {
       console.log('будем добавлять пост');
-      let findedPost = postArray.find((item) => item.id===newPost.id);
-      let index = postArray.indexOf(findedPost);
-      postArray.splice(index, 1, newPost);
-      console.log(postArray, 'UPDATE POST ARRAY')
+      postArray.push(newPost);
       setPostData(postArray);
     }
     else{
-      console.log('будем обновлять пост');
-      postArray.push(newPost);
+      console.log('WILL UPDATE POST IN DETAIL');
+      const findedPost = postArray.find((item) => item.id===newPost.id);
+      const index = postArray.indexOf(findedPost);
+      postArray.splice(index, 1, newPost);
+      console.log(postArray, 'UPDATE POST ARRAY');
       setPostData(postArray);
+    }
     }
    }
       return (
@@ -181,6 +193,7 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
               </div>
             </div>
             </div>
+            <button className="add-post-btn" onClick={addPost}>Add Post</button>
             {postData.map((post) => {
               console.log(post);
               return (
