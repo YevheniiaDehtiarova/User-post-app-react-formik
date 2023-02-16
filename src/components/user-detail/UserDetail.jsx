@@ -74,7 +74,7 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
       if(modifyData.length) {
         setPostData(modifyData);
         setPostFormActive(true);
-        console.log(tableRow)
+        //console.log(tableRow)
       }
     });
   }
@@ -105,7 +105,7 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
    }
 
    const getCreatedPost = (post) => {
-      console.log(post, 'POST CREATED');
+      //console.log(post, 'POST CREATED');
       let postArray = [...postData];
       postArray.push(post);
       setPostData(postArray);
@@ -113,23 +113,23 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
    }
 
    const updateExistingPosts = (newPost) => {
-    console.log(newPost, 'POST FROM USER DETAIL');
+    //console.log(newPost, 'POST FROM USER DETAIL');
 
     let postArray = [...postData];
-    console.log(postArray)
+    //console.log(postArray)
 
     if(newPost.isDeleted) {
-      console.log('будем удалять');
+      //console.log('будем удалять');
       const deletedPost = postArray.find((item) => item.id===newPost.id);
       const index = postArray.indexOf(deletedPost);
       postArray.splice(index,1);
       setPostData(postArray);
     } else {
-      console.log('WILL UPDATE POST IN DETAIL');
+      //console.log('WILL UPDATE POST IN DETAIL');
       const findedPost = postArray.find((item) => item.id===newPost.id);
       const index = postArray.indexOf(findedPost);
       postArray.splice(index, 1, newPost);
-      console.log(postArray, 'UPDATE POST ARRAY');
+      //console.log(postArray, 'UPDATE POST ARRAY');
       setPostData(postArray);
     }
    }

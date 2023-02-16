@@ -7,20 +7,17 @@ import { useHttp } from "../hooks/http.hook";
 
 const Post = ({post, active,id, getUpdatedPost} ) => {
 
- console.log(post, active, id, 'DATA INPUT IN POSTS')
+ //console.log(post, active, id, 'DATA INPUT IN POSTS')
 
   const [postFormActive, setPostFormActive] = useState(false);
   const [postActive, setPostActive] = useState(true);
-
   const [ postData, setPostData]= useState([]);
-
   const { request } = useHttp();
 
 
   useEffect(() => {
-    console.log(post, "use effect in post");
+    //console.log(post, "use effect in post");
   }, [post]);
-
 
   const editPost = (post) => {
     //console.log(post, index, 'POST IN EDIT');
@@ -40,7 +37,7 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
   };
 
   const updatePost = (inputPost) => {
-    console.log(inputPost, 'POST THAT UPDATE OR CREATE');
+    //console.log(inputPost, 'POST THAT UPDATE OR CREATE');
     getUpdatedPost(inputPost);
     setPostActive(true);
   }
