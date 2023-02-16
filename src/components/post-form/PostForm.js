@@ -6,15 +6,12 @@ import postRoutes from "../app/routes/post.routes";
 import { useHttp } from "../hooks/http.hook";
 
 
-const PostForm = ({active,setActive, post, getPost, userId, getCreated}) => {
-  //console.log(active,post, userId,  '!!!!!!!!!!!!! DATA FROM POST FORM');
-
+const PostForm = ({active,setActive, post, getPost, userId, getCreated, getClose}) => {
   const [postTitle, setPostTitle] = useState(null);
   const [postBody, setPostBody] = useState(null);
   const { request } = useHttp();
 
   useEffect(()=> {
-   //console.log(post, 'POST FROM  POST FROM USE EFECT');
    setPostTitle(post?.title);
    setPostBody(post?.body);
   }, [post]);
@@ -30,7 +27,10 @@ const PostForm = ({active,setActive, post, getPost, userId, getCreated}) => {
     .required('Required'),
   })
 
-  const handleClose = () => {
+  const handleClose = (e) => {
+    e.preventDefault();
+    setActive(false);
+    getClose(true);
   }
 
   const onSubmitHandler = (e) => {
@@ -43,21 +43,16 @@ const PostForm = ({active,setActive, post, getPost, userId, getCreated}) => {
       userId: userId
     }
 
-    //console.log(newPost);
     setActive(false);
 
     if(!newPost.id) {
-      //console.log('будем создавать пост');
       request(postRoutes.create, "POST", JSON.stringify(newPost))
       .then((res) => {
-        //console.log(res, 'RES FROM CREATED');
         const createdPost = res;
-        //console.log(createdPost);
         getCreated(createdPost);
       })
       .catch((err) => console.log(err));
     } else {
-      //console.log('будем обновлять пост');
       const apiUrl = postRoutes.update.replace('${id}', post.id);
       request(apiUrl, "PUT", JSON.stringify(newPost))
       .then((res) => res)

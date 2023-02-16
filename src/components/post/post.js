@@ -7,8 +7,6 @@ import { useHttp } from "../hooks/http.hook";
 
 const Post = ({post, active,id, getUpdatedPost} ) => {
 
- //console.log(post, active, id, 'DATA INPUT IN POSTS')
-
   const [postFormActive, setPostFormActive] = useState(false);
   const [postActive, setPostActive] = useState(true);
   const [ postData, setPostData]= useState([]);
@@ -16,18 +14,15 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
 
 
   useEffect(() => {
-    //console.log(post, "use effect in post");
   }, [post]);
 
   const editPost = (post) => {
-    //console.log(post, index, 'POST IN EDIT');
     setPostData(post)
     setPostFormActive(true);
     setPostActive(false);
   };
 
   const deletePost = (post) => {
-    console.log(post, 'POST WILL DELETE');
     const apiUrl = postRoutes.delete.replace('${id}', post.id);
     request(apiUrl, "DELETE", JSON.stringify(post))
     .then((res) => res)
@@ -37,10 +32,15 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
   };
 
   const updatePost = (inputPost) => {
-    //console.log(inputPost, 'POST THAT UPDATE OR CREATE');
     getUpdatedPost(inputPost);
     setPostActive(true);
   }
+
+  const setPostsAfterClose = (status) => {
+    if(status) {
+      setPostActive(true);
+    }
+   }
 
   return (
       <div className="post-container">  
@@ -58,6 +58,7 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
       )
   }
       <PostForm
+        getClose={setPostsAfterClose}
         getPost={updatePost}
         userId = {id}
         active={postFormActive}

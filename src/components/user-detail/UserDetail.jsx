@@ -74,7 +74,6 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
       if(modifyData.length) {
         setPostData(modifyData);
         setPostFormActive(true);
-        //console.log(tableRow)
       }
     });
   }
@@ -99,13 +98,11 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
    }
 
    const addPost = () => {
-    console.log('будем добавлять пост');
     setPostModalActive(true);
     setPostFormActive(false);
    }
 
    const getCreatedPost = (post) => {
-      //console.log(post, 'POST CREATED');
       let postArray = [...postData];
       postArray.push(post);
       setPostData(postArray);
@@ -113,26 +110,21 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
    }
 
    const updateExistingPosts = (newPost) => {
-    //console.log(newPost, 'POST FROM USER DETAIL');
-
     let postArray = [...postData];
-    //console.log(postArray)
 
     if(newPost.isDeleted) {
-      //console.log('будем удалять');
       const deletedPost = postArray.find((item) => item.id===newPost.id);
       const index = postArray.indexOf(deletedPost);
       postArray.splice(index,1);
       setPostData(postArray);
     } else {
-      //console.log('WILL UPDATE POST IN DETAIL');
       const findedPost = postArray.find((item) => item.id===newPost.id);
       const index = postArray.indexOf(findedPost);
       postArray.splice(index, 1, newPost);
-      //console.log(postArray, 'UPDATE POST ARRAY');
       setPostData(postArray);
     }
    }
+
       return (
       active && (
           <div>
@@ -201,7 +193,7 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
             </div>
             <button className="add-post-btn" onClick={addPost}>Add Post</button>
             {postData.map((post) => {
-              console.log(post);
+          
               return (
                  <Post  getUpdatedPost={updateExistingPosts} id={tableRow.id} post={post} active={postFormActive} setActive={setPostFormActive}></Post>
               )  
@@ -211,7 +203,7 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
             </div>
            }
             <UserForm  sendUpdateDetail={getUserDetail} activeDetail={userDetailFormActive} setActiveDetail={setUserDetailFormActive} row={tableRow}></UserForm>
-            <PostForm   getCreated={getCreatedPost} userId = {tableRow.id} active={postModalActive} setActive={setPostModalActive} post={postData}></PostForm>
+            <PostForm  getCreated={getCreatedPost} userId = {tableRow.id} active={postModalActive} setActive={setPostModalActive} post={postData}></PostForm>
           </div>
         )
       );
