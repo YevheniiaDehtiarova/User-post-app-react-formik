@@ -6,8 +6,8 @@ import postRoutes from "../app/routes/post.routes";
 import { useHttp } from "../hooks/http.hook";
 
 
-const PostForm = ({active,setActive, post, getPost, userId}) => {
-  console.log(active,post, 'DATA FROM POST FORM');
+const PostForm = ({active,setActive, post, getPost, userId, getCreated}) => {
+  console.log(active,post, userId,  '!!!!!!!!!!!!! DATA FROM POST FORM');
 
   const [postTitle, setPostTitle] = useState(null);
   const [postBody, setPostBody] = useState(null);
@@ -46,13 +46,17 @@ const PostForm = ({active,setActive, post, getPost, userId}) => {
     }
 
     console.log(newPost);
-    getPost(newPost);
     setActive(false);
 
     if(!newPost.id) {
       console.log('будем создавать пост');
       request(postRoutes.create, "POST", JSON.stringify(newPost))
-      .then((res) => res)
+      .then((res) => {
+        console.log(res, 'RES FROM CREATED');
+        const createdPost = res;
+        console.log(createdPost);
+        getCreated(createdPost);
+      })
       .catch((err) => console.log(err));
     } else {
       console.log('будем обновлять пост');
@@ -60,6 +64,7 @@ const PostForm = ({active,setActive, post, getPost, userId}) => {
       request(apiUrl, "PUT", JSON.stringify(newPost))
       .then((res) => res)
       .catch((err) => console.log(err));
+      getPost(newPost);
     }
 
     setPostTitle("");

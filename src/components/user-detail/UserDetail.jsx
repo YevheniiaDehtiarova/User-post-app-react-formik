@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import UserForm from "../user-form/UserForm";
 import postRoutes from "../app/routes/post.routes";
 import Post from "../post/Post";
+import PostForm from "../post-form/PostForm";
 
 const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
   const [userDetailFormActive, setUserDetailFormActive]= useState(false);
   const [postFormActive, setPostFormActive]= useState(false);
+  const [postModalActive, setPostModalActive]= useState(false);
+
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -96,7 +99,17 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
    }
 
    const addPost = () => {
-    console.log('будем добавлять пост')
+    console.log('будем добавлять пост');
+    setPostModalActive(true);
+    setPostFormActive(false);
+   }
+
+   const getCreatedPost = (post) => {
+      console.log(post, 'POST CREATED');
+      let postArray = [...postData];
+      postArray.push(post);
+      setPostData(postArray);
+      setPostFormActive(true)
    }
 
    const updateExistingPosts = (newPost) => {
@@ -106,25 +119,18 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
     console.log(postArray)
 
     if(newPost.isDeleted) {
-      //console.log('будем удалять');
+      console.log('будем удалять');
       const deletedPost = postArray.find((item) => item.id===newPost.id);
       const index = postArray.indexOf(deletedPost);
       postArray.splice(index,1);
       setPostData(postArray);
     } else {
-    if(!newPost.id) {
-      console.log('будем добавлять пост');
-      postArray.push(newPost);
-      setPostData(postArray);
-    }
-    else{
       console.log('WILL UPDATE POST IN DETAIL');
       const findedPost = postArray.find((item) => item.id===newPost.id);
       const index = postArray.indexOf(findedPost);
       postArray.splice(index, 1, newPost);
       console.log(postArray, 'UPDATE POST ARRAY');
       setPostData(postArray);
-    }
     }
    }
       return (
@@ -205,6 +211,7 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
             </div>
            }
             <UserForm  sendUpdateDetail={getUserDetail} activeDetail={userDetailFormActive} setActiveDetail={setUserDetailFormActive} row={tableRow}></UserForm>
+            <PostForm   getCreated={getCreatedPost} userId = {tableRow.id} active={postModalActive} setActive={setPostModalActive} post={postData}></PostForm>
           </div>
         )
       );
