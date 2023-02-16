@@ -3,6 +3,7 @@ import PostForm from "../post-form/PostForm";
 import "./Post.css";
 import postRoutes from "../app/routes/post.routes";
 import { useHttp } from "../hooks/http.hook";
+import Comment from "../comment/Comment"
 
 
 const Post = ({post, active,id, getUpdatedPost} ) => {
@@ -10,10 +11,25 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
   const [postFormActive, setPostFormActive] = useState(false);
   const [postActive, setPostActive] = useState(true);
   const [ postData, setPostData]= useState([]);
+  const [commentData, setCommentData] = useState([]);
+  const [commentActive, setCommentActive] = useState(false);
   const { request } = useHttp();
 
 
   useEffect(() => {
+    if(post){
+      fetch(
+        postRoutes.getComments,
+      )
+      .then((response) => response.json())
+      .then((data) => {
+        const modifyData = data.filter(comment => comment.postId === post.id);
+        if(modifyData.length) {
+          setCommentData(modifyData);
+          setCommentActive(true);
+        }
+      });
+    }
   }, [post]);
 
   const editPost = (post) => {
@@ -54,7 +70,15 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
         <p className="post-body__title">{post.title}</p>
         <p className="post-body__text">{post.body}</p>
       </div>
-      </div> 
+      <div>
+        {commentData.map((comment) => {         
+          return (
+             <Comment key={comment.id}  id={comment.id} comment={comment} active={commentActive} setActive={setCommentActive}></Comment>
+          )  
+        })
+      }
+      </div>
+      </div>
       )
   }
       <PostForm

@@ -1,9 +1,20 @@
-import "./comment.css";
+import { useEffect, useState} from "react";
+import "./Comment.css";
 
-const Comment = () => {
+const Comment = ({comment, active, setActive}) => {
+  const [commentData, setCommentData] = useState([])
+
+  useEffect(() => {
+    setCommentData(comment)
+  }, [comment])
   
       return (
-        <div></div>
+        <div className="comment-container">
+          <p>Comments</p>
+          <h4>{commentData.name}</h4>
+          <p>{commentData.email}</p>
+          <p>{commentData.body}</p>
+        </div>
       )
     }
 
