@@ -1,7 +1,7 @@
 import { useEffect, useState} from "react";
 import "./Comment.css";
 
-const Comment = ({comment, active, setActive}) => {
+const Comment = ({comment}) => {
   const [commentData, setCommentData] = useState([])
 
   useEffect(() => {

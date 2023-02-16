@@ -9,15 +9,13 @@ const EMPTY_ARR = [];
 
 function Users({ users }) {
   const formikSlice = users || EMPTY_ARR;
-
-  const [userFormActive, setUserFormActive] = useState(false);
   const [tableRows, setTableRows] = useState(formikSlice);
   const [rowData, setRowData] = useState(null);
   const [updateTableRows, setUpdateTableRows] = useState(null);
-
   const [tableRow, setTableRow] = useState("");
-  const [userDetailActive, setUserDetailActive]= useState(false);
 
+  const [userFormActive, setUserFormActive] = useState(false);
+  const [userDetailActive, setUserDetailActive]= useState(false);
   const [userTableActive, setUserTableActive]=useState(true);
 
   useEffect(() => {
@@ -25,7 +23,6 @@ function Users({ users }) {
   }, [formikSlice, tableRows]);
 
  
-
   const columns = [
     {
       Header: "Name",

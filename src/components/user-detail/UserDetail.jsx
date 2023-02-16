@@ -9,6 +9,10 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
   const [userDetailFormActive, setUserDetailFormActive]= useState(false);
   const [postFormActive, setPostFormActive]= useState(false);
   const [postModalActive, setPostModalActive]= useState(false);
+  const [ userDetailStatus, setUserDetailStatus] = useState(true);
+
+  const [postData, setPostData] = useState([]);
+  const [updatedUser, setUpdatedUser] = useState(null);
 
 
   const [firstName, setFirstName] = useState("");
@@ -23,12 +27,6 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
   const [website, setWebsite] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companyScope, setCompanyScope] = useState("");
-
-  const [postData, setPostData] = useState([]);
-
-  const [ userDetailStatus, setUserDetailStatus] = useState(true);
-
-  const [updatedUser, setUpdatedUser] = useState(null);
 
   useEffect(() => {
     if(tableRow) {
@@ -79,8 +77,6 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
   }
     
    },[tableRow])
-
-
 
    const goBack =() => {
      setActive(false);
@@ -198,12 +194,11 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
                  <Post key={post.id} getUpdatedPost={updateExistingPosts} id={tableRow.id} post={post} active={postFormActive} setActive={setPostFormActive}></Post>
               )  
             })
-}
-        
+} 
             </div>
            }
             <UserForm  sendUpdateDetail={getUserDetail} activeDetail={userDetailFormActive} setActiveDetail={setUserDetailFormActive} row={tableRow}></UserForm>
-            <PostForm  getCreated={getCreatedPost} userId = {tableRow.id} active={postModalActive} setActive={setPostModalActive} post={postData}></PostForm>
+            <PostForm  sendCreatedPost={getCreatedPost} userId = {tableRow.id} active={postModalActive} setActive={setPostModalActive} post={postData}></PostForm>
           </div>
         )
       );

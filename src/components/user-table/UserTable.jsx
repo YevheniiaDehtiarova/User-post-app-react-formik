@@ -24,11 +24,7 @@ const UserTable = () => {
            <Formik initialValues={formData} enableReinitialize>
            <Form> 
                <FieldArray name="users" key={1}>
-                  <Users users={formData} 
-                  handleAdd={formData}
-                  handleEdit={formData}
-                  />
-                  
+                  <Users users={formData}/>         
                </FieldArray>
           </Form>
           </Formik>

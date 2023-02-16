@@ -10,11 +10,12 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
 
   const [postFormActive, setPostFormActive] = useState(false);
   const [postActive, setPostActive] = useState(true);
-  const [ postData, setPostData]= useState([]);
-  const [commentData, setCommentData] = useState([]);
   const [commentActive, setCommentActive] = useState(false);
-  const { request } = useHttp();
 
+  const [postData, setPostData]= useState([]);
+  const [commentData, setCommentData] = useState([]);
+
+  const { request } = useHttp();
 
   useEffect(() => {
     if(post){

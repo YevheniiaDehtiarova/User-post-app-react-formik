@@ -1,8 +1,8 @@
 .post-container{
-    border: 1px solid salmon;
     margin-top: 20px;
     max-width: 100%;
     width: 600px;
+    border: 1px solid grey;
 }
 .btn-container button, .add-post-btn{
     width: 120px;
