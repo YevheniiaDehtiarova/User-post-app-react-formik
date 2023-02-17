@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import PostForm from "../post-form/PostForm";
 import "./Post.css";
 import postRoutes from "../app/routes/post.routes";
-import { useHttp } from "../hooks/http.hook";
-import Comment from "../comment/Comment"
+import Comment from "../comment/Comment";
+import axios from 'axios'
 
 
 const Post = ({post, active,id, getUpdatedPost} ) => {
@@ -15,7 +15,6 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
   const [postData, setPostData]= useState([]);
   const [commentData, setCommentData] = useState([]);
 
-  const { request } = useHttp();
 
   useEffect(() => {
     if(post){
@@ -41,9 +40,9 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
 
   const deletePost = (post) => {
     const apiUrl = postRoutes.delete.replace('${id}', post.id);
-    request(apiUrl, "DELETE", JSON.stringify(post))
-    .then((res) => res)
-    .catch((err) => console.log(err));
+    axios.delete(apiUrl, post)
+    .then((response) => (response))
+    .catch((err) => console.log(err)); 
     post.isDeleted = true;
     getUpdatedPost(post);
   };

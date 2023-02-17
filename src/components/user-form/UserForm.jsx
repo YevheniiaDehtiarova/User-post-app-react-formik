@@ -2,9 +2,9 @@ import "./UserForm.css";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Formik, Field, Form } from "formik";
-import { useHttp } from "../hooks/http.hook";
 import * as Yup from "yup";
 import userRoutes from "../app/routes/user.routes";
+import axios from 'axios'
 
 const UserForm = ({
   active,
@@ -28,7 +28,6 @@ const UserForm = ({
   const [companyName, setCompanyName] = useState("");
   const [companyScope, setCompanyScope] = useState("");
 
-  const { request } = useHttp();
 
   useEffect(() => {
     setFirstName(row?.firstName);
@@ -79,14 +78,14 @@ const UserForm = ({
     }
 
     if (!row) {
-      request(userRoutes.createUser, "POST", JSON.stringify(newUser))
-        .then((res) => res)
+      axios.post(userRoutes.createUser, newUser)
+        .then((response) => (response))
         .catch((err) => console.log(err));
     } else {
-      const apiUrl = userRoutes.updateUser.replace("${id}", newUser.id);
-      request(apiUrl, "PUT", JSON.stringify(newUser))
-        .then((res) => res)
-        .catch((err) => console.log(err));
+    const apiUrl = userRoutes.updateUser.replace("${id}", newUser.id);
+    axios.put(apiUrl, newUser)
+      .then((response) => (response))
+      .catch((err) => console.log(err));
     }
 
     setFirstName("");

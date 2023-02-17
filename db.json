@@ -35,21 +35,15 @@
     },
     {
       "id": 122,
-      "userId": 8,
-      "title": "zsxdbvgxds",
-      "body": "xdhbn "
+      "title": "zsxdbvgxds77888",
+      "body": "xdhbn ",
+      "userId": 8
     },
     {
-      "id": 124,
-      "title": "tttttttt78",
-      "body": "iiiiiiiiii",
-      "userId": 7
-    },
-    {
-      "id": 125,
       "title": "aaaaaaaaaaaaaaa7",
-      "body": "ggggggg",
-      "userId": 7
+      "body": "777777777",
+      "userId": 8,
+      "id": 126
     }
   ],
   "comments": [
@@ -91,26 +85,8 @@
   ],
   "users": [
     {
-      "id": 7,
-      "firstName": "Yevheniia7980123",
-      "lastName": "Дегтярева",
-      "email": "jeni4ka2509@gmail.com",
-      "address": {
-        "street": "просп. Победы, ",
-        "building": "100",
-        "city": "Харьков",
-        "zipcode": "61204"
-      },
-      "phone": "+380661618617",
-      "website": "7",
-      "company": {
-        "name": "8",
-        "scope": "9"
-      }
-    },
-    {
       "id": 8,
-      "firstName": "Евгения7",
+      "firstName": "Евгения7888",
       "lastName": "Дегтярева",
       "email": "jeni4ka2509@gmail.com",
       "address": {
@@ -335,6 +311,25 @@
       "company": {
         "name": "xbnf",
         "scope": "7777"
+      }
+    },
+    {
+      "id": 23,
+      "firstName": "Yevheniia",
+      "lastName": "Dehtiarova",
+      "userName": "sfcsdf",
+      "email": "yevheniia.dehtiarova@nixsolutions.com",
+      "address": {
+        "street": "karazina",
+        "building": "2",
+        "city": "kharkiv",
+        "zipcode": "61000"
+      },
+      "phone": "+380 66 1618617",
+      "website": "\\fvs",
+      "company": {
+        "name": "xbnf",
+        "scope": "777777"
       }
     }
   ],
