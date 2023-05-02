@@ -82,6 +82,7 @@ const UserForm = ({
         .then((response) => (response))
         .catch((err) => console.log(err));
     } else {
+    // eslint-disable-next-line no-template-curly-in-string
     const apiUrl = userRoutes.updateUser.replace("${id}", newUser.id);
     axios.put(apiUrl, newUser)
       .then((response) => (response))
