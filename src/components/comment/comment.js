@@ -1,19 +1,12 @@
-import { useEffect, useState} from "react";
 import "./Comment.css";
 
 const Comment = ({comment}) => {
-  const [commentData, setCommentData] = useState([])
-
-  useEffect(() => {
-    setCommentData(comment)
-  }, [comment])
-  
       return (
         <div className="comment-container">
           <p>Comments</p>
-          <h4>{commentData.name}</h4>
-          <p>{commentData.email}</p>
-          <p>{commentData.body}</p>
+          <h4>{comment.name}</h4>
+          <p>{comment.email}</p>
+          <p>{comment.body}</p>
         </div>
       )
     }

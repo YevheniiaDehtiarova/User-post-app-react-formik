@@ -8,6 +8,8 @@ import axios from 'axios'
 
 const Post = ({post, active,id, getUpdatedPost} ) => {
 
+  console.log(post, 'input post')
+
   const [postFormActive, setPostFormActive] = useState(false);
   const [postActive, setPostActive] = useState(true);
   const [commentActive, setCommentActive] = useState(false);
@@ -31,6 +33,7 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
       });
     }
   }, [post]);
+
 
   const editPost = (post) => {
     setPostData(post)
@@ -71,7 +74,8 @@ const Post = ({post, active,id, getUpdatedPost} ) => {
         <p className="post-body__text">{post.body}</p>
       </div>
       <div>
-        {commentData.map((comment) => {         
+        {commentData.map((comment) => {    
+          console.log(comment, 'COMMENT FROM POST')  
           return (
              <Comment key={comment.id}  id={comment.id} comment={comment} active={commentActive} setActive={setCommentActive}></Comment>
           )  

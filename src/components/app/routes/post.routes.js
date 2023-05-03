@@ -1,10 +1,12 @@
+import { env } from "./env";
+
 const postRoutes = {
-    getAll: 'http://localhost:3000/api/posts',
-    create: 'http://localhost:3000/api/posts',
-    getById: 'http://localhost:3000/api/posts/${id}',
-    update: 'http://localhost:3000/api/posts/${id}',
-    delete: 'http://localhost:3000/api/posts/${id}',
-    getComments: 'http://localhost:3000/api/comments'
+    getAll: env.dev + 'posts',
+    create: env.dev + 'posts',
+    getById: env.dev + 'posts/${id}',
+    update: env.dev + 'posts/${id}',
+    delete: env.dev + 'posts/${id}',
+    getComments: env.dev + 'comments'
   };
 
   export default postRoutes;

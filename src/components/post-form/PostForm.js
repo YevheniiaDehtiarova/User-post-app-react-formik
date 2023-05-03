@@ -89,7 +89,7 @@ const PostForm = ({
           }}
           validationSchema={validationSchema}
         >
-          <Form className="user-form-block">
+          <div className="user-form-block">
             <label htmlFor="postTitle">Enter post header</label>
             <Field
               id="postTitle"
@@ -116,7 +116,7 @@ const PostForm = ({
                 Submit
               </button>
             </div>
-          </Form>
+          </div>
         </Formik>
       </div>
     )
