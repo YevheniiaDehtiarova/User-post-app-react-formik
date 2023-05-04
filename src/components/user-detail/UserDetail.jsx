@@ -186,14 +186,13 @@ const UserDetail = ({ tableRow, active, setActive, sendUpdateStatus }) => {
               Add Post
             </button>
             {postData.map((post) => {
-              console.log(post, "POST FROM USER DETAIL");
               return (
                 <Post
                   key={post.id}
                   getUpdatedPost={updateExistingPosts}
                   id={tableRow.id}
                   post={post}
-                  active={postFormActive}
+                  formActive={postFormActive}
                   setActive={setPostFormActive}
                 ></Post>
               );

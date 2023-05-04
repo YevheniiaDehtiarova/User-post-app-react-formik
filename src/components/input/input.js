@@ -4,19 +4,17 @@ import { useField } from "formik";
 
 function Input({ name, label }) {
   const [field] = useField({ name, type: "text" });
-  const input = (
-    <input id={name} name={name} type="text" {...field} value={name} />
-  );
+
 
   if (label) {
     return (
       <div className="field">
-        <label htmlFor={name}>{label}</label>
-        {input}
+        <label htmlFor={name}>{label}</label>    
+        <input id={name} name={name} type="text" {...field} value={name} />
       </div>
     );
   }
-  return input;
+  return <input id={name} name={name} type="text" {...field} value={name} />
 }
 
-export default React.memo(Input);
+export default Input;

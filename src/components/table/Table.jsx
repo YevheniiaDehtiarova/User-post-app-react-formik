@@ -2,12 +2,12 @@ import "./Table.css";
 import React, { useEffect } from "react";
 import { useTable } from "react-table";
 
-function Table({ columns, data, rowKey, updateData, active, setActive }) {
-  useEffect(() => {}, [active]);
+function Table({ columns, data, rowKey, active, setActive }) {
+  useEffect(() => {
+  }, [active]);
 
-  if (updateData) {
-    data = updateData;
-  }
+  useEffect(() => {}, [data]);
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,

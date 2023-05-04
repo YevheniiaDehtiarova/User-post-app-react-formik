@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import PostForm from "../post-form/PostForm";
 import "./Post.css";
 import postRoutes from "../app/routes/post.routes";
-import Comment from "../comment/Comment";
+import Comment from "../comments/Comments";
 import axios from "axios";
 
-const Post = ({ post, active, id, getUpdatedPost }) => {
-  console.log(post, "input post");
-
+const Post = ({ post, formActive, id, getUpdatedPost }) => {
+  console.log(formActive, 'ACTIVE');
   const [postFormActive, setPostFormActive] = useState(false);
   const [postActive, setPostActive] = useState(true);
   const [commentActive, setCommentActive] = useState(false);
@@ -58,9 +57,11 @@ const Post = ({ post, active, id, getUpdatedPost }) => {
     }
   };
 
+  console.log(formActive, postActive);
+
   return (
     <div className="post-container">
-      {active && postActive && (
+      {formActive  && postActive && (
         <div>
           <div className="btn-container">
             <button onClick={() => editPost(post)}>Edit Post</button>
@@ -72,7 +73,6 @@ const Post = ({ post, active, id, getUpdatedPost }) => {
           </div>
           <div>
             {commentData.map((comment) => {
-              console.log(comment, "COMMENT FROM POST");
               return (
                 <Comment
                   key={comment.id}

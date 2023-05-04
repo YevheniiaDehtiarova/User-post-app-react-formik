@@ -1,6 +1,6 @@
-import "./Comment.css";
+import "./Comments.css";
 
-const Comment = ({ comment }) => {
+const Comments = ({ comment }) => {
   return (
     <div className="comment-container">
       <p>Comments</p>
@@ -11,4 +11,4 @@ const Comment = ({ comment }) => {
   );
 };
 
-export default Comment;
+export default Comments;

@@ -11,7 +11,6 @@ function Users({ users }) {
   const formikSlice = users || EMPTY_ARR;
   const [tableRows, setTableRows] = useState(formikSlice);
   const [rowData, setRowData] = useState(null);
-  const [updateTableRows, setUpdateTableRows] = useState(null);
   const [tableRow, setTableRow] = useState("");
 
   const [userFormActive, setUserFormActive] = useState(false);
@@ -20,7 +19,7 @@ function Users({ users }) {
 
   useEffect(() => {
     setTableRows(formikSlice);
-  }, [formikSlice, tableRows]);
+  }, [formikSlice]);
 
   const columns = [
     {
@@ -104,10 +103,12 @@ function Users({ users }) {
     if (user) {
       if (JSON.stringify(user) !== JSON.stringify(rowData?.original)) {
         const newState = [...tableRows];
+        console.log(newState, 'NEWS STATE FIRST');
         const findedElement = newState.find((item) => item.id === user.id);
         const index = newState.indexOf(findedElement);
         newState.splice(index, 1, user);
-        setUpdateTableRows(newState);
+        console.log(newState, 'NEWS STATE SECOND');
+        setTableRows(newState);
       }
     }
   };
@@ -129,7 +130,6 @@ function Users({ users }) {
       </div>
       <Table
         data={tableRows}
-        updateData={updateTableRows}
         columns={columns}
         active={userTableActive}
         setActive={setUserTableActive}
