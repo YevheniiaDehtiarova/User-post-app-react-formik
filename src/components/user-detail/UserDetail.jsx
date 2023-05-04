@@ -5,15 +5,14 @@ import postRoutes from "../app/routes/post.routes";
 import Post from "../post/Post";
 import PostForm from "../post-form/PostForm";
 
-const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
-  const [userDetailFormActive, setUserDetailFormActive]= useState(false);
-  const [postFormActive, setPostFormActive]= useState(false);
-  const [postModalActive, setPostModalActive]= useState(false);
-  const [ userDetailStatus, setUserDetailStatus] = useState(true);
+const UserDetail = ({ tableRow, active, setActive, sendUpdateStatus }) => {
+  const [userDetailFormActive, setUserDetailFormActive] = useState(false);
+  const [postFormActive, setPostFormActive] = useState(false);
+  const [postModalActive, setPostModalActive] = useState(false);
+  const [userDetailStatus, setUserDetailStatus] = useState(true);
 
   const [postData, setPostData] = useState([]);
   const [updatedUser, setUpdatedUser] = useState(null);
-
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -29,7 +28,7 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
   const [companyScope, setCompanyScope] = useState("");
 
   useEffect(() => {
-    if(tableRow) {
+    if (tableRow) {
       setFirstName(tableRow?.firstName);
       setLastName(tableRow?.lastName);
       setUserName(tableRow?.userName);
@@ -44,165 +43,179 @@ const UserDetail = ({tableRow, active, setActive, sendUpdateStatus}) => {
       setCompanyScope(tableRow?.company?.scope);
     }
 
-    if(updatedUser){
-    setFirstName(updatedUser?.firstName);
-    setLastName(updatedUser?.lastName);
-    setUserName(updatedUser?.userName);
-    setEmail(updatedUser?.email);
-    setStreet(updatedUser?.address?.street);
-    setBuilding(updatedUser?.address?.building);
-    setCity(updatedUser?.address?.city);
-    setZipcode(updatedUser?.address?.zipcode);
-    setPhone(updatedUser?.phone);
-    setWebsite(updatedUser?.website);
-    setCompanyName(updatedUser?.company?.name);
-    setCompanyScope(updatedUser?.company?.scope);
+    if (updatedUser) {
+      setFirstName(updatedUser?.firstName);
+      setLastName(updatedUser?.lastName);
+      setUserName(updatedUser?.userName);
+      setEmail(updatedUser?.email);
+      setStreet(updatedUser?.address?.street);
+      setBuilding(updatedUser?.address?.building);
+      setCity(updatedUser?.address?.city);
+      setZipcode(updatedUser?.address?.zipcode);
+      setPhone(updatedUser?.phone);
+      setWebsite(updatedUser?.website);
+      setCompanyName(updatedUser?.company?.name);
+      setCompanyScope(updatedUser?.company?.scope);
     }
+  }, [tableRow, sendUpdateStatus, updatedUser]);
 
-  }, [tableRow,sendUpdateStatus,updatedUser]);
+  useEffect(() => {
+    if (tableRow) {
+      fetch(postRoutes.getAll)
+        .then((response) => response.json())
+        .then((data) => {
+          const modifyData = data.filter((item) => item.userId === tableRow.id);
+          if (modifyData.length) {
+            setPostData(modifyData);
+            setPostFormActive(true);
+          }
+        });
+    }
+  }, [tableRow]);
 
-   useEffect(() => {
-    if(tableRow){
-    fetch(
-      postRoutes.getAll,
-    )
-    .then((response) => response.json())
-    .then((data) => {
-      const modifyData = data.filter(item => item.userId === tableRow.id);
-      if(modifyData.length) {
-        setPostData(modifyData);
-        setPostFormActive(true);
-      }
-    });
-  }
-    
-   },[tableRow])
+  const goBack = () => {
+    setActive(false);
+    sendUpdateStatus(false);
+  };
 
-   const goBack =() => {
-     setActive(false);
-     sendUpdateStatus(false);
-   }
+  const openUserModal = () => {
+    setUserDetailFormActive(true);
+    setUserDetailStatus(false);
+  };
 
-   const openUserModal = () => {
-      setUserDetailFormActive(true);
-      setUserDetailStatus(false);
-   }
-
-   const getUserDetail = (user) => {
+  const getUserDetail = (user) => {
     setUserDetailStatus(true);
     setUpdatedUser(user);
-   }
+  };
 
-   const addPost = () => {
+  const addPost = () => {
     setPostModalActive(true);
     setPostFormActive(false);
-   }
+  };
 
-   const getCreatedPost = (post) => {
-      let postArray = [...postData];
-      postArray.push(post);
-      setPostData(postArray);
-      setPostFormActive(true)
-   }
+  const getCreatedPost = (post) => {
+    let postArray = [...postData];
+    postArray.push(post);
+    setPostData(postArray);
+    setPostFormActive(true);
+  };
 
-   const updateExistingPosts = (newPost) => {
+  const updateExistingPosts = (newPost) => {
     let postArray = [...postData];
 
-    if(newPost.isDeleted) {
-      const deletedPost = postArray.find((item) => item.id===newPost.id);
+    if (newPost.isDeleted) {
+      const deletedPost = postArray.find((item) => item.id === newPost.id);
       const index = postArray.indexOf(deletedPost);
-      postArray.splice(index,1);
+      postArray.splice(index, 1);
       setPostData(postArray);
     } else {
-      const findedPost = postArray.find((item) => item.id===newPost.id);
+      const findedPost = postArray.find((item) => item.id === newPost.id);
       const index = postArray.indexOf(findedPost);
       postArray.splice(index, 1, newPost);
       setPostData(postArray);
     }
-   }
+  };
 
-      return (
-      active && (
+  return (
+    active && (
+      <div>
+        {userDetailStatus && (
           <div>
-            {userDetailStatus && 
-            <div>
             <div className="user-detail-container">
-            <div className="user-detail-btn-container">
-              <button onClick={goBack}>Go to users</button>
-              <button onClick={openUserModal}>Edit User</button>
+              <div className="user-detail-btn-container">
+                <button onClick={goBack}>Go to users</button>
+                <button onClick={openUserModal}>Edit User</button>
+              </div>
+              <div className="user-info_person">
+                <h1>User Details</h1>
+                <div className="user-info-item">
+                  <strong>
+                    <span>First Name</span>
+                  </strong>
+                  <span>{firstName}</span>
+                </div>
+                <div className="user-info-item">
+                  <strong>
+                    <span>Last Name</span>
+                  </strong>
+                  <span>{lastName}</span>
+                </div>
+                <div className="user-info-item">
+                  <strong>
+                    <span>User name</span>
+                  </strong>
+                  <span>{userName}</span>
+                </div>
+                <div className="user-info-item">
+                  <strong>
+                    <span>Email</span>
+                  </strong>
+                  <span>{email}</span>
+                </div>
+                <div className="user-info-item">
+                  <strong>
+                    <span>Address</span>
+                  </strong>
+                  <span>
+                    {street} {building} {city} {zipcode}{" "}
+                  </span>
+                </div>
+                <div className="user-info-item">
+                  <strong>
+                    <span>Phone</span>
+                  </strong>
+                  <span> {phone} </span>
+                </div>
+                <div className="user-info-item">
+                  <strong>
+                    <span>Website</span>
+                  </strong>
+                  <span> {website}</span>
+                </div>
+                <div className="user-info-item">
+                  <strong>
+                    <span>Company</span>
+                  </strong>
+                  <span>
+                    {companyName} {companyScope}{" "}
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="user-info_person">
-              <h1>User Details</h1>
-              <div className="user-info-item">
-                <strong>
-                  <span>First Name</span>
-                </strong>
-                <span>{firstName}</span>
-              </div>
-              <div className="user-info-item">
-                <strong>
-                  <span>Last Name</span>
-                </strong>
-                <span>{lastName}</span>
-              </div>
-              <div className="user-info-item">
-                <strong>
-                  <span>User name</span>
-                </strong>
-                <span>{userName}</span>
-              </div>
-              <div className="user-info-item">
-                <strong>
-                  <span>Email</span>
-                </strong>
-                <span>{email}</span>
-              </div>
-              <div className="user-info-item">
-                <strong>
-                  <span>Address</span>
-                </strong>
-                <span>
-                  {street} {building} {city} {zipcode}{" "}
-                </span>
-              </div>
-              <div className="user-info-item">
-                <strong>
-                  <span>Phone</span>
-                </strong>
-                <span> {phone} </span>
-              </div>
-              <div className="user-info-item">
-                <strong>
-                  <span>Website</span>
-                </strong>
-                <span> {website}</span>
-              </div>
-              <div className="user-info-item">
-                <strong>
-                  <span>Company</span>
-                </strong>
-                <span>
-                  {companyName} {companyScope}{" "}
-                </span>
-              </div>
-            </div>
-            </div>
-            <button className="add-post-btn" onClick={addPost}>Add Post</button>
+            <button className="add-post-btn" onClick={addPost}>
+              Add Post
+            </button>
             {postData.map((post) => {
-              console.log(post, 'POST FROM USER DETAIL')
+              console.log(post, "POST FROM USER DETAIL");
               return (
-                 <Post key={post.id} getUpdatedPost={updateExistingPosts} id={tableRow.id} post={post} active={postFormActive} setActive={setPostFormActive}></Post>
-              )  
-            })
-} 
-            </div>
-           }
-            <UserForm  sendUpdateDetail={getUserDetail} activeDetail={userDetailFormActive} setActiveDetail={setUserDetailFormActive} row={tableRow}></UserForm>
-            <PostForm  sendCreatedPost={getCreatedPost} userId = {tableRow.id} active={postModalActive} setActive={setPostModalActive} post={postData}></PostForm>
+                <Post
+                  key={post.id}
+                  getUpdatedPost={updateExistingPosts}
+                  id={tableRow.id}
+                  post={post}
+                  active={postFormActive}
+                  setActive={setPostFormActive}
+                ></Post>
+              );
+            })}
           </div>
-        )
-      );
-    }
-
+        )}
+        <UserForm
+          sendUpdateDetail={getUserDetail}
+          activeDetail={userDetailFormActive}
+          setActiveDetail={setUserDetailFormActive}
+          row={tableRow}
+        ></UserForm>
+        <PostForm
+          sendCreatedPost={getCreatedPost}
+          userId={tableRow.id}
+          active={postModalActive}
+          setActive={setPostModalActive}
+          post={postData}
+        ></PostForm>
+      </div>
+    )
+  );
+};
 
 export default UserDetail;

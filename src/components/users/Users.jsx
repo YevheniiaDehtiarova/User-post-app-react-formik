@@ -15,14 +15,13 @@ function Users({ users }) {
   const [tableRow, setTableRow] = useState("");
 
   const [userFormActive, setUserFormActive] = useState(false);
-  const [userDetailActive, setUserDetailActive]= useState(false);
-  const [userTableActive, setUserTableActive]=useState(true);
+  const [userDetailActive, setUserDetailActive] = useState(false);
+  const [userTableActive, setUserTableActive] = useState(true);
 
   useEffect(() => {
     setTableRows(formikSlice);
   }, [formikSlice, tableRows]);
 
- 
   const columns = [
     {
       Header: "Name",
@@ -45,7 +44,11 @@ function Users({ users }) {
       id: "address",
       Cell: (props) => {
         const { original } = props.cell.row;
-        return <Input name={`${original.address.city} ${original.address.street} ${original.address.building}`} />;
+        return (
+          <Input
+            name={`${original.address.city} ${original.address.street} ${original.address.building}`}
+          />
+        );
       },
     },
     {
@@ -61,10 +64,18 @@ function Users({ users }) {
       id: "actions",
       Cell: ({ row }) => (
         <div className="user-btn-block">
-          <button className="user-btn" type="button" onClick={() => onClickEditUser(row)}>
+          <button
+            className="user-btn"
+            type="button"
+            onClick={() => onClickEditUser(row)}
+          >
             edit
           </button>
-          <button className="user-btn" type="button" onClick={() => onClickOpenUser(row)}>
+          <button
+            className="user-btn"
+            type="button"
+            onClick={() => onClickOpenUser(row)}
+          >
             open
           </button>
         </div>
@@ -72,16 +83,15 @@ function Users({ users }) {
     },
   ];
 
-
   const onClickAddUser = () => {
     setUserFormActive(true);
     setUserTableActive(false);
   };
-  const onClickOpenUser  = (row) => {
+  const onClickOpenUser = (row) => {
     setTableRow(row.original);
     setUserDetailActive(true);
     setUserTableActive(false);
-  }
+  };
 
   const onClickEditUser = (row) => {
     setRowData(row.original);
@@ -91,38 +101,53 @@ function Users({ users }) {
 
   const getUserFromUserForm = (user) => {
     setUserTableActive(true);
-     if(user){     
-       if(JSON.stringify(user) !== JSON.stringify(rowData?.original)){
-          const newState = [...tableRows];
-           const findedElement = newState.find((item) => item.id === user.id);
-           const index = newState.indexOf(findedElement)
-           newState.splice(index, 1, user);
-           setUpdateTableRows(newState);
-       }
-     }
-  }
+    if (user) {
+      if (JSON.stringify(user) !== JSON.stringify(rowData?.original)) {
+        const newState = [...tableRows];
+        const findedElement = newState.find((item) => item.id === user.id);
+        const index = newState.indexOf(findedElement);
+        newState.splice(index, 1, user);
+        setUpdateTableRows(newState);
+      }
+    }
+  };
 
   const getUserDetailStatus = (status) => {
     if (!status) {
       setUserTableActive(true);
     }
-  }
-
+  };
 
   return (
     <div className="field">
       <div>
-        {userTableActive && 
-        <button className="user-btn" type="button" onClick={onClickAddUser}>
-          Add user
-        </button>
-       }  
+        {userTableActive && (
+          <button className="user-btn" type="button" onClick={onClickAddUser}>
+            Add user
+          </button>
+        )}
       </div>
-      <Table data={tableRows} updateData={updateTableRows} columns={columns}  active ={userTableActive} setActive={setUserTableActive} rowKey="id" />
-      <UserForm sendUpdateUser={getUserFromUserForm}  active={userFormActive} setActive={setUserFormActive} row={rowData}></UserForm>
-      <UserDetail sendUpdateStatus={getUserDetailStatus} tableRow={tableRow} active={userDetailActive} setActive={setUserDetailActive}/>
+      <Table
+        data={tableRows}
+        updateData={updateTableRows}
+        columns={columns}
+        active={userTableActive}
+        setActive={setUserTableActive}
+        rowKey="id"
+      />
+      <UserForm
+        sendUpdateUser={getUserFromUserForm}
+        active={userFormActive}
+        setActive={setUserFormActive}
+        row={rowData}
+      ></UserForm>
+      <UserDetail
+        sendUpdateStatus={getUserDetailStatus}
+        tableRow={tableRow}
+        active={userDetailActive}
+        setActive={setUserDetailActive}
+      />
     </div>
-
   );
 }
 

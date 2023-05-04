@@ -1,5 +1,5 @@
 function createUser(object) {
-  const user =  {
+  const user = {
     id: object.id ? object.id : "",
     firstName: object.firstName,
     lastName: object.lastName,

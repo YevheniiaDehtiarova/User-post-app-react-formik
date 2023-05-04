@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
 import userRoutes from "../app/routes/user.routes";
-import axios from 'axios'
+import axios from "axios";
 
 const UserForm = ({
   active,
@@ -27,7 +27,6 @@ const UserForm = ({
   const [website, setWebsite] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companyScope, setCompanyScope] = useState("");
-
 
   useEffect(() => {
     setFirstName(row?.firstName);
@@ -78,15 +77,17 @@ const UserForm = ({
     }
 
     if (!row) {
-      axios.post(userRoutes.createUser, newUser)
-        .then((response) => (response))
+      axios
+        .post(userRoutes.createUser, newUser)
+        .then((response) => response)
         .catch((err) => console.log(err));
     } else {
-    // eslint-disable-next-line no-template-curly-in-string
-    const apiUrl = userRoutes.updateUser.replace("${id}", newUser.id);
-    axios.put(apiUrl, newUser)
-      .then((response) => (response))
-      .catch((err) => console.log(err));
+      // eslint-disable-next-line no-template-curly-in-string
+      const apiUrl = userRoutes.updateUser.replace("${id}", newUser.id);
+      axios
+        .put(apiUrl, newUser)
+        .then((response) => response)
+        .catch((err) => console.log(err));
     }
 
     setFirstName("");

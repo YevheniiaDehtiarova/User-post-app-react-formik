@@ -1,3 +1,3 @@
 export const env = {
-    dev: 'http://localhost:3000/api/'
-}
+  dev: "http://localhost:3000/api/",
+};

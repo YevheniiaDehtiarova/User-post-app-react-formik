@@ -3,7 +3,7 @@ import "./PostForm.css";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import postRoutes from "../app/routes/post.routes";
-import axios from 'axios'
+import axios from "axios";
 
 const PostForm = ({
   active,
@@ -52,17 +52,19 @@ const PostForm = ({
     setActive(false);
 
     if (!newPost.id) {
-      axios.post(postRoutes.create, newPost)
-      .then((response) => {
-        const createdPost = response;
-         sendCreatedPost(createdPost);
-      })
-      .catch((err) => console.log(err));
+      axios
+        .post(postRoutes.create, newPost)
+        .then((response) => {
+          const createdPost = response;
+          sendCreatedPost(createdPost);
+        })
+        .catch((err) => console.log(err));
     } else {
       const apiUrl = postRoutes.update.replace("${id}", post.id);
-      axios.put(apiUrl, newPost)
-      .then((response) => (response))
-      .catch((err) => console.log(err)); 
+      axios
+        .put(apiUrl, newPost)
+        .then((response) => response)
+        .catch((err) => console.log(err));
       getPost(newPost);
     }
 
