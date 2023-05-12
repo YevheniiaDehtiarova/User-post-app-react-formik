@@ -6,27 +6,29 @@ import Comment from "../comments/Comments";
 import axios from "axios";
 
 const Post = ({ post, formActive, id, getUpdatedPost }) => {
-  console.log(formActive, 'ACTIVE');
   const [postFormActive, setPostFormActive] = useState(false);
   const [postActive, setPostActive] = useState(true);
   const [commentActive, setCommentActive] = useState(false);
-
   const [postData, setPostData] = useState([]);
   const [commentData, setCommentData] = useState([]);
 
   useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const response = await fetch(postRoutes.getComments);
+        const data = await response.json();
+        const modifyData = data.filter((comment) => comment.postId === post.id);
+        if (modifyData.length) {
+          setCommentData(modifyData);
+          setCommentActive(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
     if (post) {
-      fetch(postRoutes.getComments)
-        .then((response) => response.json())
-        .then((data) => {
-          const modifyData = data.filter(
-            (comment) => comment.postId === post.id
-          );
-          if (modifyData.length) {
-            setCommentData(modifyData);
-            setCommentActive(true);
-          }
-        });
+      fetchComments();
     }
   }, [post]);
 
@@ -45,6 +47,7 @@ const Post = ({ post, formActive, id, getUpdatedPost }) => {
     post.isDeleted = true;
     getUpdatedPost(post);
   };
+ 
 
   const updatePost = (inputPost) => {
     getUpdatedPost(inputPost);
@@ -57,7 +60,6 @@ const Post = ({ post, formActive, id, getUpdatedPost }) => {
     }
   };
 
-  console.log(formActive, postActive);
 
   return (
     <div className="post-container">
