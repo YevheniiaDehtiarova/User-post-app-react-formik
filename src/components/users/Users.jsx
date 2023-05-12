@@ -1,27 +1,36 @@
 import "./Users.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Input from "../input/input";
 import Table from "../table/Table";
 import UserForm from "../user-form/UserForm";
 import UserDetail from "../user-detail/UserDetail";
 
-const EMPTY_ARR = [];
+
 
 function Users({ users }) {
-  const formikSlice = users || EMPTY_ARR;
-  const [tableRows, setTableRows] = useState(formikSlice);
+  const [tableRows, setTableRows] = useState(users);
   const [rowData, setRowData] = useState(null);
   const [tableRow, setTableRow] = useState("");
-
-  const [userFormActive, setUserFormActive] = useState(false);
-  const [userDetailActive, setUserDetailActive] = useState(false);
-  const [userTableActive, setUserTableActive] = useState(true);
+  const [activeComponent, setActiveComponent] = useState("userTable");
 
   useEffect(() => {
-    setTableRows(formikSlice);
-  }, [formikSlice]);
+    setTableRows(users);
+  }, [users]);
 
-  const columns = [
+  const onClickAddUser = () => {
+    setActiveComponent("userForm");
+  };
+  const onClickOpenUser = useCallback((row) => {
+    setTableRow(row.original);
+    setActiveComponent("userDetail");
+  },[]);
+
+  const onClickEditUser = useCallback((row) => {
+    setRowData(row.original);
+    setActiveComponent("userForm");
+  },[]);
+
+  const columns = useMemo(() => [
     {
       Header: "Name",
       accessor: "name",
@@ -80,26 +89,10 @@ function Users({ users }) {
         </div>
       ),
     },
-  ];
-
-  const onClickAddUser = () => {
-    setUserFormActive(true);
-    setUserTableActive(false);
-  };
-  const onClickOpenUser = (row) => {
-    setTableRow(row.original);
-    setUserDetailActive(true);
-    setUserTableActive(false);
-  };
-
-  const onClickEditUser = (row) => {
-    setRowData(row.original);
-    setUserFormActive(true);
-    setUserTableActive(false);
-  };
+  ], [onClickEditUser,onClickOpenUser]);
 
   const getUserFromUserForm = (user) => {
-    setUserTableActive(true);
+    setActiveComponent("userTable");
     if (user) {
       if (JSON.stringify(user) !== JSON.stringify(rowData?.original)) {
         const newState = [...tableRows];
@@ -115,14 +108,14 @@ function Users({ users }) {
 
   const getUserDetailStatus = (status) => {
     if (!status) {
-      setUserTableActive(true);
+      setActiveComponent("userTable");
     }
   };
 
   return (
     <div className="field">
       <div>
-        {userTableActive && (
+        {activeComponent === "userTable" && (
           <button className="user-btn" type="button" onClick={onClickAddUser}>
             Add user
           </button>
@@ -131,21 +124,21 @@ function Users({ users }) {
       <Table
         data={tableRows}
         columns={columns}
-        active={userTableActive}
-        setActive={setUserTableActive}
+        active={activeComponent === "userTable"}
+        setActive={setActiveComponent}
         rowKey="id"
       />
       <UserForm
         sendUpdateUser={getUserFromUserForm}
-        active={userFormActive}
-        setActive={setUserFormActive}
+        active={activeComponent === "userForm"}
+        setActive={setActiveComponent}
         row={rowData}
       ></UserForm>
       <UserDetail
         sendUpdateStatus={getUserDetailStatus}
         tableRow={tableRow}
-        active={userDetailActive}
-        setActive={setUserDetailActive}
+        active={activeComponent === "userDetail"}
+        setActive={setActiveComponent}
       />
     </div>
   );
