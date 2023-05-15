@@ -2,7 +2,7 @@ import "./UserDetail.css";
 import { useEffect, useState } from "react";
 import UserForm from "../user-form/UserForm";
 import postRoutes from "../app/routes/post.routes";
-import Post from "../post/Post";
+import Post from "../post/post";
 import PostForm from "../post-form/PostForm";
 
 const UserDetail = ({ tableRow, active, setActive, sendUpdateStatus }) => {

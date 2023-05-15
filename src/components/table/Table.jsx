@@ -2,7 +2,7 @@ import "./Table.css";
 import React, { useEffect } from "react";
 import { useTable } from "react-table";
 
-function Table({ columns, data, rowKey, active, setActive }) {
+function Table({ columns, data, rowKey, active}) {
   useEffect(() => {
   }, [active]);
 
