@@ -1,25 +1,19 @@
 import "./UserTable.css";
 import { Formik, Form, FieldArray } from "formik";
-import { useState, useEffect } from "react";
 import Users from "../users/Users";
-import userRoutes from "../app/routes/user.routes";
-import axios from "axios";
+import { useSelector } from 'react-redux'
 
 const UserTable = () => {
-  const [formData, setFormData] = useState([]);
+  const users = useSelector((state) => state.users);
 
-  useEffect(() => {
-    axios.get(userRoutes.getUsers).then((data) => {
-      setFormData(data.data);
-    });
-  }, []);
+  console.log(users, 'USERS FROM USER TABLE')
 
   return (
     <div>
-      <Formik initialValues={formData} enableReinitialize>
+      <Formik initialValues={users} enableReinitialize>
         <Form>
           <FieldArray name="users" key={1}>
-            <Users users={formData} />
+            <Users users={users} />
           </FieldArray>
         </Form>
       </Formik>

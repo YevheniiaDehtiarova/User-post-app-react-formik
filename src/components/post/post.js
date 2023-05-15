@@ -6,7 +6,6 @@ import Comment from "../comments/Comments";
 import axios from "axios";
 
 const Post = ({ post, formActive, id, getUpdatedPost }) => {
-  console.log(formActive, 'ACTIVE');
   const [postFormActive, setPostFormActive] = useState(false);
   const [postActive, setPostActive] = useState(true);
   const [commentActive, setCommentActive] = useState(false);
@@ -56,8 +55,6 @@ const Post = ({ post, formActive, id, getUpdatedPost }) => {
       setPostActive(true);
     }
   };
-
-  console.log(formActive, postActive);
 
   return (
     <div className="post-container">

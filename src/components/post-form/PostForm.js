@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./PostForm.css";
-import { Formik, Form, Field } from "formik";
+import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import postRoutes from "../app/routes/post.routes";
 import axios from "axios";
