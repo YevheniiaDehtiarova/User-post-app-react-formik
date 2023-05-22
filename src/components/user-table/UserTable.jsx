@@ -1,20 +1,21 @@
 import "./UserTable.css";
 import { Formik, Form, FieldArray } from "formik";
 import Users from "../users/Users";
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchUsers, selectAllUsers } from "../features/users/userSlice";
+import {useSelector, useDispatch } from 'react-redux'
+import { getUsers } from "../features/users/userSlice";
 import React, { useEffect } from 'react'
 
 const UserTable = () => {
-  //const users = useSelector((state) => state.users);
-  const dispatch = useDispatch()
 
+  const {users, loading} = useSelector((state)=> state.users)
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-      dispatch(fetchUsers())
+      dispatch(getUsers())
   }, [dispatch])
 
-  const users = selectAllUsers;
+
 
   console.log(users, 'USERS FROM USER TABLE')
 

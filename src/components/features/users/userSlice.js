@@ -1,9 +1,20 @@
 import { createSlice,createAsyncThunk } from '@reduxjs/toolkit';
-import { client } from '../../app/routes/client';
 import  userRoutes  from '../../app/routes/user.routes';
-import axios from "axios";
+import axios from 'axios';
+
 
 const initialState = [];
+
+/*export const getUsers = createAsyncThunk('users/getUsers', async () => {
+  return await fetch(userRoutes.getUsers).then((res)=> {
+    console.log(res);
+    res.json();
+  })
+})*/
+export const getUsers =  axios.get(userRoutes.getUsers).then((res) => {
+  console.log(res.data)
+  return res.data
+})
 
 /*useEffect(() => {
   axios.get(userRoutes.getUsers).then((data) => {
@@ -35,25 +46,26 @@ const usersSlice = createSlice({
       }
     },
   },
+  extraReducers: {
+    [getUsers.pending]: (state, action) => {
+           state.loading = true
+    },
+    [getUsers.fulfilled]: (state,action) => {
+      state.loading = false;
+      state.posts = action.payload;
+    },
+    [getUsers.rejected]:(state,action) => {
+      state.loading = false;
+    }
+  }
 })
-/*export const fetchUsers = createAsyncThunk(userRoutes.getUsers, async () => {
-  const response = await client.get(userRoutes.getUsers);
-  console.log(response)
-  return response.data
-})*/
 
-export function fetchUsers() {
-  return function(dispatch) {
-    return axios.get(userRoutes.getUsers)
-      .then(({ data }) => {
-      dispatch(setUsers(data));
-    });
-  };
-}
 
-export const { userAdded, userUpdated} = usersSlice.actions
 
-export default usersSlice.reducer
+
+export const { userAdded, userUpdated,} = usersSlice.actions
+
+export default usersSlice.reducer;
 
 //export const selectAllUsers = state => state.users;
 
