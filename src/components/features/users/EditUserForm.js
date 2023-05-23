@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import  UserTable  from '../../user-table/UserTable';
 import { useParams } from "react-router-dom";
 
-import { userUpdated } from './userSlice';
+import { userUpdated } from './../../archieve/userSlice';
 
 export const EditUserForm = ({ }) => {
 

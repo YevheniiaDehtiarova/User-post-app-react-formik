@@ -1,6 +1,7 @@
 import { createSlice,createAsyncThunk } from '@reduxjs/toolkit';
-import  userRoutes  from '../../app/routes/user.routes';
+import  userRoutes  from '../app/routes/user.routes';
 import axios from 'axios';
+
 
 
 const initialState = [];
@@ -11,10 +12,17 @@ const initialState = [];
     res.json();
   })
 })*/
-export const getUsers =  axios.get(userRoutes.getUsers).then((res) => {
+export const getUsers = createAsyncThunk('users/getUsers',  () => {
+  return  axios.get(userRoutes.getUsers).then((response)=> {
+    console.log(response);
+    //res.json();
+    response.data.map((user) => user.id)
+  })
+})
+/*export const getUsers =  axios.get(userRoutes.getUsers).then((res) => {
   console.log(res.data)
   return res.data
-})
+})*/
 
 /*useEffect(() => {
   axios.get(userRoutes.getUsers).then((data) => {
@@ -23,7 +31,7 @@ export const getUsers =  axios.get(userRoutes.getUsers).then((res) => {
 }, []);*/
 
 const usersSlice = createSlice({
-  name: 'users',
+  name: 'user',
   initialState,
   reducers: {
     userAdded: {
@@ -46,7 +54,22 @@ const usersSlice = createSlice({
       }
     },
   },
-  extraReducers: {
+  extraReducers: (builder) => {
+    builder.addCase(getUsers.pending, (state) => {
+      state.loading = true
+    })
+    builder.addCase(getUsers.fulfilled, (state,action) => {
+      state.loading = false
+      state.users = action.payload
+      state.error = ''
+    })
+    builder.addCase(getUsers.rejected, (state,action) => {
+      state.loading = false
+      state.users = []
+      state.error = action.error.message
+    })
+  }
+  /*extraReducers: {
     [getUsers.pending]: (state, action) => {
            state.loading = true
     },
@@ -57,7 +80,7 @@ const usersSlice = createSlice({
     [getUsers.rejected]:(state,action) => {
       state.loading = false;
     }
-  }
+  }*/
 })
 
 
