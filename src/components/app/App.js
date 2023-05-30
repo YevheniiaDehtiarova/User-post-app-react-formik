@@ -8,10 +8,8 @@ import {
 } from 'react-router-dom';
 import { SingleUserPage } from "../features/users/SingleUserPage";
 import { EditUserForm } from "../features/users/EditUserForm";
-import { withUserstoreService } from "../redux/hoc";
 
-function App({userService}) {
-  console.log(userService.getUsers())
+function App() {
   return (
     <Router>
       <div className="App">
@@ -31,4 +29,4 @@ function App({userService}) {
   );
 }
 
-export default withUserstoreService() (App);
+export default  App;

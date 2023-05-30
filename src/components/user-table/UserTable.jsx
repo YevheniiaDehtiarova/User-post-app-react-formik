@@ -2,21 +2,27 @@ import "./UserTable.css";
 import { Formik, Form, FieldArray } from "formik";
 import Users from "../users/Users";
 import {useSelector, useDispatch } from 'react-redux'
-//import { getUsers } from "../features/users/userSlice";
-import React, {useEffect} from 'react';
+import React, {useEffect,useCallback} from 'react';
+import {fetchUsers} from '../features/users/userSlice';
 
 
 const UserTable = () => {
 
-  const users = useSelector((state)=> state.userS)
+  const users = useSelector((state)=> state.users)
   const dispatch = useDispatch();
 
-  useEffect(() => {
+ /* const newUsers  =  useEffect(() => {
     console.log('USE EFFETC WORKS');
-    dispatch([])
-  }, [dispatch])
+    dispatch(fetchUsers())
+  }, [dispatch])*/
 
-  console.log(users, 'USERS FROM USER TABLE')
+ const newUsers = useCallback(() => {
+    console.log("Async Data CALLED");
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
+
+ console.log(users,  newUsers, 'USERS FROM USER TABLE')
 
   return (
     <div>
