@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 import userRoutes from "../../app/routes/user.routes";
+import { actions } from "react-table";
 //import axios from "axios";
 
 const usersAdapter = createEntityAdapter();
@@ -70,11 +71,12 @@ const userSlice = createSlice({
     .addDefaultCase(()=>{})
   }
 });
-
-const { actions, reducer } = userSlice;
-
-export default reducer;
+actions = userSlice.actions;
 
 export const {selectAll} = usersAdapter.getSelectors(state => state.users)
 
 export const { usersFetching, usersFetched, usersFetchingError, userCreated, userDeleted } = actions;
+
+export default userSlice.reducer;
+
+

@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
-import { useHttp } from "../../hooks/http"
 import postRoutes from "../../app/routes/post.routes";
 
 const postsAdapter = createEntityAdapter();/*вернет обьект с колбэками, методами*/
@@ -13,13 +12,26 @@ const postsAdapter = createEntityAdapter();/*вернет обьект с кол
    postsLoadingStatus: "idle",
  };
 
-export const fetchPosts = createAsyncThunk(
+ async function getData() {
+  const response = await fetch(postRoutes.getAll);
+  console.log(response);
+  return response.json();
+}
+
+export async function posts() {
+  const data = await getData();
+  console.log(data)
+  return data;
+}
+
+/*export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
   () => {
     const { request } = useHttp();
     return request(postRoutes.getAll);
   }
-);
+);*/
+export const fetchPosts = createAsyncThunk("posts/fetch", async () => posts());
 
 const postSlice = createSlice({
   name: "posts",
@@ -33,6 +45,14 @@ const postSlice = createSlice({
       //postsAdapter.removeOne(state,action.payload);
       state.posts = state.posts.filter((item) => item.id !== action.payload);
     },
+    postUpdated(state, action) {
+      const { id, title, content } = action.payload
+      const existingPost = state.posts.find(post => post.id === id)
+      if (existingPost) {
+        existingPost.title = title
+        existingPost.content = content
+      }
+    }
   },
   extraReducers: (builder) => {
     builder

@@ -4,25 +4,45 @@ import Users from "../users/Users";
 import {useSelector, useDispatch } from 'react-redux'
 import React, {useEffect,useCallback} from 'react';
 import {fetchUsers} from '../features/users/userSlice';
+import { fetchPosts } from "../features/posts/postSlice";
+import allActions from '../redux/actions/index'
 
 
 const UserTable = () => {
 
-  const users = useSelector((state)=> state.users)
-  const dispatch = useDispatch();
+  //const counter = useSelector(state => state.counter)
+  const users = useSelector(state => state.users)
+
+  const dispatch = useDispatch()
+
+
+  useEffect(() => {
+    dispatch(allActions.userActions.fetchUsers())
+  }, [dispatch])
+
+  //const users = useSelector((state)=> state.users)
+  //const dispatch = useDispatch();
 
  /* const newUsers  =  useEffect(() => {
     console.log('USE EFFETC WORKS');
     dispatch(fetchUsers())
   }, [dispatch])*/
 
- const newUsers = useCallback(() => {
+ /*const newUsers = useCallback(() => {
     console.log("Async Data CALLED");
     dispatch(fetchUsers());
+  }, [dispatch]);*/
+
+  /*const posts = useSelector((state) => state.posts.posts);
+
+  useEffect(() => {
+    dispatch(fetchPosts());
   }, [dispatch]);
 
+  console.log(posts, 'posts')*/
 
- console.log(users,  newUsers, 'USERS FROM USER TABLE')
+
+ console.log(users, 'USERS FROM USER TABLE')
 
   return (
     <div>
