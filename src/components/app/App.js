@@ -6,8 +6,7 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
-import { SingleUserPage } from "../features/users/SingleUserPage";
-import { EditUserForm } from "../features/users/EditUserForm";
+
 
 function App() {
   return (
@@ -20,8 +19,8 @@ function App() {
             path="/"
             element={<UserTable/>}  
           />
-          <Route exact path="/users/:userId" element={<SingleUserPage/>} />
-          <Route exact path="/editUser/:userId" element={<EditUserForm/>} />
+          {/* <Route exact path="/users/:userId" element={<SingleUserPage/>} />
+          <Route exact path="/editUser/:userId" element={<EditUserForm/>} /> */}
         </Routes>
         </React.Fragment>
       </div>
